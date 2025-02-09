@@ -1,4 +1,5 @@
 from globalvars import *
+
 import pandas as pd
 import os
 
@@ -27,15 +28,15 @@ def calcpricebymass(mass,ppm):
     return mass*ppm
 
                 
-def calcrawsheetforruptures(rodl=118,qty=5,shw=1000,shh=2000):
-    tm=bm=rm=lm=12
-    cw=3
-    xsep=8
-    ysep=8
+def calcrawsheetforruptures(rodl=118,qty=5,shw=rupturerawplatewidthmm,shh=rupturerawplateheightmm):
+    tm=bm=rm=lm=rupturelasermetalsheetedgemargins
+    cw=rupturelasermetalsheetcutwidth
+    xsep=rupturelasermetalsheetcutmargins
+    ysep=rupturelasermetalsheetcutmargins
     rod=rodl[0]
-    lsm=10
-    lcm =5
-    xsepm=5
+    lsm=rupturelasermetalsheetedgemargins
+    lcm =rupturelasermetalsheetcutwidth
+    xsepm=rupturelasermetalsheetcutmargins
     rsq=1
     rsw = shw - lsm*2
     rsh= shh -2*lsm       
@@ -110,20 +111,23 @@ def calcrawsheetforruptures(rodl=118,qty=5,shw=1000,shh=2000):
 def calcoverneedruptureqtyfordesign(rtype,rsize):
     rtype = rtype.lower()
     oq = 1
-    if rtype=='flat':
-        if int(rsize)>=8:
-            oq=oq+1
-        else:
-            oq = oq+2
-    elif  rtype=='reverse':
+    if  rtype=='reverse':
         oq = oq+2
         if int(rsize)<=8:
-            oq=oq+2
+            return 5
         else:
-            oq=oq+1
+            return 4
     else:
         if int(rsize)>6:
-            oq+1
+            return 2
         else:
-            oq+2
-    return oq 
+            return 3
+    return 1 
+
+def getruptureqtyrawmaterial(qty=1,rtype='flat',rsize=4):
+    ar= []
+    ar.append(qty)
+    from filehandler import getoverqtyrupturefortest
+    ar.append(getoverqtyrupturefortest(qty))
+    ar.append(calcoverneedruptureqtyfordesign(rtype,rsize))
+    return ar

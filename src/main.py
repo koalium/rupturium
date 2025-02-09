@@ -12,5 +12,5 @@ import mgui as mg
 
 if __name__ == '__main__':
     
-      
+    readresorcemakesource(filename=dbfilename) 
     mg.main()

@@ -1,12 +1,16 @@
 
+Global_plane=[]
+Global_planeviewnum = 0
+
 
 Global_Materials=[]
-Global_Reverse=[]
+Global_Reverse= []
 Global_Forward=[]
 Global_Flat=[]
 Global_Size=[]
 Global_Mto=[]
 Global_testqty=[]
+gdata_={'material':Global_Materials,'test':Global_testqty,'mto':Global_Mto,'size':Global_Size,'reverse':Global_Reverse,'forward':Global_Forward,'flat':Global_Flat}
 
 filpathdef = '../my_data/001.xlsx'
 file_path = '../my_data/my_file.txt'
@@ -41,7 +45,11 @@ mtosheet = 'mto'
 thicknessstrhedear='thickness'
 
 ruplasermargin=5
-rupturerawplatewidthmm=2000
+rupturerawplatewidthmm=1000
+rupturerawplateheightmm=2000
+rupturelasermetalsheetedgemargins=15
+rupturelasermetalsheetcutwidth=3
+rupturelasermetalsheetcutmargins=3
 rupturelasermargin=5
 findres =[]
 findsize=[]
@@ -78,6 +86,7 @@ mainmaterialheader = 'mainmat'
 
 keys_to_save = ('-COMBOTYPER-', '-INPUTRNS-', '-SPINRQTY-','-SPINHQTY-', '-COMBOMAINMATERIALR-', '-COMBOSEALMATERIALR-', '-COMBOSUBATERIALR-', '-CBSENR-','-CBBXGR-', '-COMBOTYPEH-', '-INPUTHNS-','-COMBOMAINMATERIALH-','-CBSHPR-','-CBWJLR-', '-CBWRCR-', '-CBANMR-',  '-INPUTRBT-', '-INPUTRBP-', '-CBGKTH-','-COMBOMAINMATERIALRH-','-SPINRHQTY-','-CBBHLDR-','-CBGKTRH-','-CBSENR-')
 
+key_to_database=('material','reverse','forward','flat','size','mto','test')
 
 ruplayermaterialsdef=['s316','s316','ptfe']
 ruptomtodef=['reverse',2,5,50,ruplayermaterialsdef,5,False,False,False,False,False,False,False]   
@@ -85,3 +94,5 @@ rawsheetwidemainlayers=2000
 rawsheetwideseallayer=1200
 rawsheetheightmainlayers=1000
 rawsheetheightseallayer=4000
+
+

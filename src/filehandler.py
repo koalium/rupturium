@@ -13,7 +13,7 @@ def mylister(filename,sheetname,colname):
         mr.append(str(s))
     
     return mr
-def structmakinerfromexcel(sn):
+def structsheetfromreadedexcel__(sn):
     dbfilename='mainDB_.xlsx'
     hsheet = pd.read_excel(dbfilename, sheet_name =str(sn.lower()), index_col=None, header=0)
     df = pd.DataFrame(hsheet)    
@@ -25,37 +25,63 @@ def structmakinerfromexcel(sn):
         data.append(r)
     return data    
 
+def structsheetfromreadedexcel(snsheet):
+    dsheet = gdata_[snsheet]
+    df = pd.DataFrame(dsheet)
+    data=[]
+    r=[]
+    s=[]
+    for row in df.itertuples():
+        r = row[1:]  # Skip the index
+        data.append(r)
+    return data        
 
     
 def getoverqtyrupturefortest(rqty=2):
-    data = structmakinerfromexcel('test')
+    data = structsheetfromreadedexcel('test')
+    nqty=2
     for d in data:
-        if d[0]=='rptrqty':
-            az = int(d[1])
-            ta = int(d[2])
-            if ta>=rqty:
-                nqty = max(rqty+int(d[3]),int(rqty*float(d[4])))
-                return nqty
-    return rqty
-def getruptureqtyrawmaterial(qty=1,rtype='flat',rsize=4):
-    arqt= []
-    arqt.append(qty)
-    arqt.append(getoverqtyrupturefortest(qty))
-    arqt.append(arqt[1]+calcoverneedruptureqtyfordesign(rtype.lower(),rsize))
-    return arqt
+        az = float(d[1])
+        ta = float(d[2])
+        if float(d[2])>=rqty and float(d[1])<=rqty:
+            return int(max(float(d[3]),(rqty*float(d[4]))))
+            
+    return int(rqty*0.033)
+
+
 
 def readresorcemakesource(filename):
-    Global_Materials= structmakinerfromexcel('material')
-    Global_Reverse= structmakinerfromexcel('reverse')
-    Global_Forward= structmakinerfromexcel('forward')
-    Global_Flat= structmakinerfromexcel('flat')
-    Global_Size= structmakinerfromexcel('size')
-    Global_Mto= structmakinerfromexcel('mto')
-    Global_testqty= structmakinerfromexcel('test')
+    global gdata_
+    
+    
+    global Global_Materials
+    Global_Materials= structsheetfromreadedexcel__('material')
+    
+    global Global_Reverse
+    Global_Reverse= structsheetfromreadedexcel__('reverse')
+    
+    global Global_Forward
+    Global_Forward= structsheetfromreadedexcel__('forward')
+    
+    global Global_Flat
+    Global_Flat= structsheetfromreadedexcel__('flat')
+   
+    global Global_Size
+    Global_Size= structsheetfromreadedexcel__('size')
+    
+    global Global_Mto
+    Global_Mto= structsheetfromreadedexcel__('mto')
+    
+    global Global_testqty
+    Global_testqty= structsheetfromreadedexcel__('test')
+    
+    
+    gdata_={'material':Global_Materials,'test':Global_testqty,'mto':Global_Mto,'size':Global_Size,'reverse':Global_Reverse,'forward':Global_Forward,'flat':Global_Flat}
+    return gdata_
     
     
 def findmaterialifpredefined(mat='s316'):
-    data = structmakinerfromexcel('material')
+    data = structsheetfromreadedexcel('material')
     m = str(mat).lower()
     if len(m)>3:
         m=m[0:3]
@@ -87,7 +113,7 @@ def getmaterialnamepriceunit(mat='s316'):
         
    
 def getrupturelayers(rtype='reverse'):
-    data = structmakinerfromexcel('reverse')
+    data = structsheetfromreadedexcel('reverse')
     dd=[]
     r=[]
     mr=[]
@@ -150,7 +176,7 @@ def findneardesignedruptureperv(rtype='reverse',rsize=2,rbp=5):
     
         
 def getdimensionbysizetype(element='rupture',etype='reverse',esize=2):
-    data = structmakinerfromexcel('size')
+    data = structsheetfromreadedexcel('size')
     element=element.lower()
     etype=etype.lower()
     esize=int(float(esize)*10)
@@ -169,7 +195,7 @@ def getdimensionbysizetype(element='rupture',etype='reverse',esize=2):
 
                     
 def getreadmtoitemorop(element='rupture'):
-    data = structmakinerfromexcel('mto')
+    data = structsheetfromreadedexcel('mto')
     r=[]
     it=[]
     rd=[]
@@ -192,7 +218,7 @@ def getreadmtoitemorop(element='rupture'):
     return rd   
 
 def getreadmtoheader(l='Fa'):
-    data = structmakinerfromexcel('mto')
+    data = structsheetfromreadedexcel('mto')
     r=[]
     it=[]
     for d in data:
