@@ -1,17 +1,8 @@
 #
-from globalvars import *
 import FreeSimpleGUI as sg
 
-
-from filehandler import *
 from graphdraw import *
-from calculation import *
-
-
 from mtomaker import *
-import pandas as pd
-import os
-
 
 
 def rupturesettype(rtype):
@@ -81,10 +72,8 @@ def rupturebtnlogo(w,v):
     print("[LOG] logo btn on rupture tab pressed!")
     arqt= getruptureqtyrawmaterial(qty=int(v['-SPINRQTY-']),rtype=str(v['-COMBOTYPER-']).lower(),rsize=float(v['-INPUTRNS-']))
     
-    return drawrupturescirclesinplate(gr=w['-GRAPH-'] ,rod=r[0],qty=arqt[2],arqty=arqt)
-    
-    
-    return Global_plane,Global_planeviewnum
+    drawrupturescirclesinplate(gr=w['-GRAPH-'] ,rod=r[0],arqty=arqt)
+
 def rupturegraphnext(w,v):
     print("[LOG] Next on graph rupture tab pressed!") 
     if len(getdimensionbysizetype(element='rupture',etype=str(v['-COMBOTYPER-']).lower(),esize=v['-INPUTRNS-']))==0:
@@ -98,8 +87,9 @@ def rupturegraphnext(w,v):
     print("[LOG] logo btn on rupture tab pressed!")
     arqt= getruptureqtyrawmaterial(qty=int(v['-SPINRQTY-']),rtype=str(v['-COMBOTYPER-']).lower(),rsize=float(v['-INPUTRNS-']))
     
-    pvn=drawonrawplatenextplan(gr=w['-GRAPH-'] ,rod=r[0],qty=arqt[2],arqty=arqt)
-    return pvn
+    drawonrawplatenextplan(gr=w['-GRAPH-'] ,rod=r[0],arqty=arqt)
+    
+    
 
 def rupturegraphprev(vw,v):
     return rupturegraphnext(w,v,n)

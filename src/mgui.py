@@ -1,16 +1,15 @@
 from globalvars import *
-import FreeSimpleGUI as sg
-
-
-
+from filehandler import *
+from graphdraw import *
 from calculation import *
 from handler import *
-mainmatlist = mylister(dbfilename,materialsheetname,mainmaterialheader)
+from mtomaker import *
+mainmatlist = mylister(dbfilename, materialsheetname, mainmaterialheader)
 # Create a UserSettings object. The JSON file will be saved in the same folder as this .py file
 window_contents = sg.UserSettings(path='.', filename='mysettings.json')
 def notfountsizeerrorgui(s):
     if s==False:
-        sg.popup('incorrect and incompatible size!!!!!', keep_on_top=True)    
+        sg.popup('incorrect and incompatible size!!!!!', keep_on_top=True)
 
 def make_key(key):
     """
@@ -25,8 +24,8 @@ def make_key(key):
 
 
 def make_window(theme):
-    CW=760
-    CH=380
+    CW=800
+    CH=400
     CLBX=5
     CLBY=5
     CRTX=CW-5
@@ -43,64 +42,64 @@ def make_window(theme):
     headingstable = ["material","thickness","size","bpress","btemp","realbp","res","frmh","drw"]
 
     rupture_layout =  [[sg.Menu(menu_def, key='-MENU-')],
-                [sg.Text('Type:', font = ('Calibri', 12,'bold')),sg.Combo(values=('Reverse', 'Forward', 'Flat'), default_value='Reverse', readonly=True, k='-COMBOTYPER-'),  sg.Text(' Nominal Size:', font = ('Calibri', 12,'bold')),sg.Input('2',key='-INPUTRNS-', size=(3,8)), sg.Text('Burst Pressure:'),sg.Input('5',key='-INPUTRBP-', size=(5,5)),sg.Text('Burst Temprature:'),sg.Input('25',key='-INPUTRBT-', size=(3,5)),sg.Text('Qty', font = ('Arial',12)), sg.Spin([i for i in range(1,1001)], initial_value=1, k='-SPINRQTY-')], 
+                [sg.Text('Type:', font = ('Calibri', 12, 'bold')), sg.Combo(values=('Reverse', 'Forward', 'Flat'), default_value='Reverse', readonly=True, k='-COMBOTYPER-'), sg.Text(' Nominal Size:', font = ('Calibri', 12, 'bold')), sg.Input('2', key='-INPUTRNS-', size=(3, 8)), sg.Text('Burst Pressure:'), sg.Input('5', key='-INPUTRBP-', size=(5, 5)), sg.Text('Burst Temprature:'), sg.Input('25', key='-INPUTRBT-', size=(3, 5)), sg.Text('Qty', font = ('Arial', 12)), sg.Spin([i for i in range(1, 1001)], initial_value=1, k='-SPINRQTY-')],
                 [sg.HorizontalSeparator()],
-                [sg.Text('Materials:', font = ('Arial', 14,'bold')),sg.Combo(values=(mainmatlist[0:mainmatlist.__len__()-6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALR-'),sg.Combo(values=(mainmatlist[mainmatlist.__len__():mainmatlist.__len__()-6:-1]), default_value=mainmatlist[mainmatlist.__len__()-1], readonly=True, k='-COMBOSEALMATERIALR-'),sg.Combo(values=(mainmatlist[0:mainmatlist.__len__()]), default_value=mainmatlist[2], readonly=True, k='-COMBOSUBATERIALR-'),sg.Checkbox('material analysis', default=True, k='-CBANMR-'),sg.Stretch()],   
-                [sg.Checkbox('wirecut', font = ('bold'), default=True, k='-CBWRCR-'),sg.Checkbox('waterjet/laser', default=True, k='-CBWJLR-'),sg.Checkbox('Boxing', default=True, k='-CBBXGR-'),sg.Checkbox('shipping', default=True, k='-CBSHPR-'),sg.Checkbox('Tags', default=True, k='-CBTAGR-'),sg.Checkbox('Sensor', default=False, k='-CBSENR-'),sg.Text('Sensor Qty',k='-txtsnsr-'), sg.Spin([i for i in range(1,1001)], initial_value=0, k='-SPINRSNSQTY-')],
-                [sg.Button('MTO', button_color = ('White', 'Red'),key='-BTNMTOR-'), sg.Button('Save',key='-BTNSAVER-'), sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-BTNLOGOR-'),sg.Checkbox('Holder', font = ('Arial',12,'bold'), default=False, k='-CBBHLDR-'),sg.Text('Holders Qty',k='-texthldqty-'), sg.Spin([i for i in range(1,1001)], initial_value=1, k='-SPINRHQTY-'),sg.Combo(values=(mainmatlist[0:mainmatlist.__len__()-6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALRH-'),sg.Checkbox('Gasket', default=True, k='-CBGKTRH-')],
+                [sg.Text('Materials:', font = ('Arial', 14, 'bold')), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__() - 6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALR-'), sg.Combo(values=(mainmatlist[mainmatlist.__len__():mainmatlist.__len__() - 6:-1]), default_value=mainmatlist[mainmatlist.__len__() - 1], readonly=True, k='-COMBOSEALMATERIALR-'), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__()]), default_value=mainmatlist[2], readonly=True, k='-COMBOSUBATERIALR-'), sg.Checkbox('material analysis', default=True, k='-CBANMR-'), sg.Stretch()],
+                [sg.Checkbox('wirecut', font = ('bold'), default=True, k='-CBWRCR-'), sg.Checkbox('waterjet/laser', default=True, k='-CBWJLR-'), sg.Checkbox('Boxing', default=True, k='-CBBXGR-'), sg.Checkbox('shipping', default=True, k='-CBSHPR-'), sg.Checkbox('Tags', default=True, k='-CBTAGR-'), sg.Checkbox('Sensor', default=False, k='-CBSENR-'), sg.Text('Sensor Qty', k='-txtsnsr-'), sg.Spin([i for i in range(1, 1001)], initial_value=0, k='-SPINRSNSQTY-')],
+                [sg.Button('MTO', button_color = ('White', 'Red'), key='-BTNMTOR-'), sg.Button('Save', key='-BTNSAVER-'), sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-BTNLOGOR-'), sg.Checkbox('Holder', font = ('Arial', 12, 'bold'), default=False, k='-CBBHLDR-'), sg.Text('Holders Qty', k='-texthldqty-'), sg.Spin([i for i in range(1, 1001)], initial_value=1, k='-SPINRHQTY-'), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__() - 6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALRH-'), sg.Checkbox('Gasket', default=True, k='-CBGKTRH-')],
                 [sg.HorizontalSeparator()],
                 #[sg.Table(values=datatable, headings=headingstable, max_col_width=15,background_color='black',auto_size_columns=True,display_row_numbers=True,justification='right',num_rows=2,alternating_row_color='black',
                                                 #key='-TABLE-',
                                                 #row_height=22)]     ,   
-                [sg.Graph((CW,CH), (CLBX,CLBY),(CRTX,CRTY),background_color="black", key='-GRAPH-', enable_events=True,float_values=True,
-                          right_click_menu=graph_right_click_menu_def)]]
+                [sg.Graph((CW, CH), (CLBX, CLBY), (CRTX, CRTY), background_color="black", key='-GRAPH-', enable_events=True,
+                                  right_click_menu=graph_right_click_menu_def)]]
 
-    holder_layout = [[sg.Text('Type:'),sg.Combo(values=('Reverse', 'Forward'), default_value='Reverse', readonly=True, k='-COMBOTYPEH-'),sg.Text(' Nominal Size:'),sg.Input('1',key='-INPUTHNS-', size=(3,5)),sg.Text('Materials:'),sg.Combo(values=(mainmatlist[0:mainmatlist.__len__()-6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALH-'),sg.Checkbox('Gasket', default=True, k='-CBGKTH-')],
-               [sg.Spin([i for i in range(1,1001)], initial_value=1, k='-SPINHQTY-'), sg.Text('Qty')],
-               [sg.Button('MTO',key='-BTNMTOH-'), sg.Button('Save',key='-BTNSAVEH-'), sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-LOGOBTNH-')],   
-                [sg.Graph((CW,CH), (CLBY,CLBY),(CRTX,CRTY),background_color="black", key='-HGRAPH-', enable_events=True,float_values=True,
-                          right_click_menu=graph_right_click_menu_def)],
-               [sg.Multiline('', size=(25,5), expand_x=True, expand_y=True, k='-MLINEH-')]]
+    holder_layout = [[sg.Text('Type:'), sg.Combo(values=('Reverse', 'Forward'), default_value='Reverse', readonly=True, k='-COMBOTYPEH-'), sg.Text(' Nominal Size:'), sg.Input('1', key='-INPUTHNS-', size=(3, 5)), sg.Text('Materials:'), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__() - 6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALH-'), sg.Checkbox('Gasket', default=True, k='-CBGKTH-')],
+                     [sg.Spin([i for i in range(1, 1001)], initial_value=1, k='-SPINHQTY-'), sg.Text('Qty')],
+                     [sg.Button('MTO', key='-BTNMTOH-'), sg.Button('Save', key='-BTNSAVEH-'), sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-LOGOBTNH-')],
+                     [sg.Graph((CW, CH), (CLBY, CLBY), (CRTX, CRTY), background_color="black", key='-HGRAPH-', enable_events=True, float_values=True,
+                                       right_click_menu=graph_right_click_menu_def)],
+                     [sg.Multiline('', size=(25, 5), expand_x=True, expand_y=True, k='-MLINEH-')]]
 
     
     
     flamearrestor_layout= [[sg.Text("prepairing for flame arrester")]]
 
-    breathervalve_layout = [[sg.Text("Breather Valve")]]   
+    breathervalve_layout = [[sg.Text("Breather Valve")]]
     
     
-    col1 = [[sg.Stretch(),sg.Text("Sheet SS304 per Kg"), sg.Input('4050000',key='-INPUTPRICESS304-', size=(9,8))],   
-                          [sg.Stretch(), sg.Text("Sheet SS316 per Kg"),sg.Input('4200000',key='-INPUTPRICESS316-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Sheet Monel per Kg"),sg.Input('4200000',key='-INPUTPRICEMONEL-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Sheet Inconel per Kg"),sg.Input('4200000',key='-INPUTPRICEINCONEL-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Sheet Hastelloy per Kg"),sg.Input('4200000',key='-INPUTPRICEHASTELLOY-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Sheet Aluminium per Kg"),sg.Input('4200000',key='-INPUTPRICEALUMINIUM-', size=(9,8))],
-                          [sg.Stretch(), sg.Text("Sheet Titanium per Kg"),sg.Input('4200000',key='-INPUTPRICETITANIUM-', size=(9,8))],
-                          [sg.Stretch(), sg.Text("Sheet Copper per Kg"),sg.Input('4200000',key='-INPUTPRICECOPER-', size=(9,8))],
-                          [sg.Stretch(), sg.Text("Sheet CS per Kg"),sg.Input('4200000',key='-INPUTPRICECS-', size=(9,8))],
-                          [sg.Stretch(), sg.Text("Sheet Silver per Kg"),sg.Input('4350000',key='-INPUTPRICESILVER-', size=(9,8))]]
-    col2 = [[sg.Stretch(), sg.Text("Shaft SS304 per Kg"),sg.Input('4350000',key='-INPUTPRICESHAFT304-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft SS316 per Kg"),sg.Input('4350000',key='-INPUTPRICESHAFT316-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft Monel per Kg"),sg.Input('4200000',key='-INPUTPRICESHAFTMONEL-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft Inconel per Kg"),sg.Input('4200000',key='-INPUTPRICESHAFTINCONEL-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft Hastelloy per Kg"),sg.Input('4200000',key='-INPUTPRICESHAFTHASTELLOY-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft Aluminium per Kg"),sg.Input('4350000',key='-INPUTPRICESHAFTALUMINIUM-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft Copper per Kg"),sg.Input('4350000',key='-INPUTPRICESHAFTCOPPER-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft Titanium per Kg"),sg.Input('4350000',key='-INPUTPRICESHAFTTITANIUM-', size=(9,8))],
-                          [sg.Stretch(),sg.Text("Shaft CS per Kg"),sg.Input('4350000',key='-INPUTPRICESHAFTCS-', size=(9,8))],
-                          [sg.Stretch(), sg.Text("Shaft Silver per Kg"),sg.Input('4350000',key='-INPUTPRICESHAFTSILVER-', size=(9,8))]] 
+    col1 = [[sg.Stretch(), sg.Text("Sheet SS304 per Kg"), sg.Input('4050000', key='-INPUTPRICESS304-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet SS316 per Kg"), sg.Input('4200000', key='-INPUTPRICESS316-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Monel per Kg"), sg.Input('4200000', key='-INPUTPRICEMONEL-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Inconel per Kg"), sg.Input('4200000', key='-INPUTPRICEINCONEL-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Hastelloy per Kg"), sg.Input('4200000', key='-INPUTPRICEHASTELLOY-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Aluminium per Kg"), sg.Input('4200000', key='-INPUTPRICEALUMINIUM-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Titanium per Kg"), sg.Input('4200000', key='-INPUTPRICETITANIUM-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Copper per Kg"), sg.Input('4200000', key='-INPUTPRICECOPER-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet CS per Kg"), sg.Input('4200000', key='-INPUTPRICECS-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Silver per Kg"), sg.Input('4350000', key='-INPUTPRICESILVER-', size=(9, 8))]]
+    col2 = [[sg.Stretch(), sg.Text("Shaft SS304 per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFT304-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft SS316 per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFT316-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft Monel per Kg"), sg.Input('4200000', key='-INPUTPRICESHAFTMONEL-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft Inconel per Kg"), sg.Input('4200000', key='-INPUTPRICESHAFTINCONEL-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft Hastelloy per Kg"), sg.Input('4200000', key='-INPUTPRICESHAFTHASTELLOY-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft Aluminium per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFTALUMINIUM-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft Copper per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFTCOPPER-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft Titanium per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFTTITANIUM-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft CS per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFTCS-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Shaft Silver per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFTSILVER-', size=(9, 8))]]
    
     col3 = [
-                        [sg.Stretch(),sg.Text("testing burst price"),sg.Input('4350000',key='-INPUTPRICESTESTING-', size=(9,8))],
-                        [sg.Stretch(),sg.Text("marking an Tagprice"),sg.Input('4350000',key='-INPUTPRICESTAG-', size=(9,8))],
-                        [sg.Stretch(),sg.Text("cnc milling"),sg.Input('4350000',key='-INPUTPRICEMILLING-', size=(9,8))],
-                        [sg.Stretch(),sg.Text("machinery and treading"),sg.Input('4350000',key='-INPUTPRICEMACHINERY-', size=(9,8))],
-                        [sg.Stretch(),sg.Text("welding job price "),sg.Input('4350000',key='-INPUTPRICEWELDING-', size=(9,8))],
-                        [sg.Stretch(),sg.Text("polish and paint"),sg.Input('4350000',key='-INPUTPRICEPAINT-', size=(9,8))],
-                           [sg.Stretch(),sg.Text("waterjet-laser cutting "),sg.Input('4350000',key='-INPUTPRICESWATERJET-', size=(9,8))],
-                           [sg.Stretch(),sg.Text("wirecut price for drw"),sg.Input('4350000',key='-INPUTPRICEWIRECUT-', size=(9,8))],
-                           [sg.Stretch(),sg.Text("boxing price"),sg.Input('4350000',key='-INPUTPRICEBOXING-', size=(9,8))],
-                           [sg.Stretch(),sg.Text("Shipping total"),sg.Input('4350000',key='-INPUTPRICESHIPPING-', size=(9,8))] ]
+                        [sg.Stretch(), sg.Text("testing burst price"), sg.Input('4350000', key='-INPUTPRICESTESTING-', size=(9, 8))],
+                        [sg.Stretch(), sg.Text("marking an Tagprice"), sg.Input('4350000', key='-INPUTPRICESTAG-', size=(9, 8))],
+                        [sg.Stretch(), sg.Text("cnc milling"), sg.Input('4350000', key='-INPUTPRICEMILLING-', size=(9, 8))],
+                        [sg.Stretch(), sg.Text("machinery and treading"), sg.Input('4350000', key='-INPUTPRICEMACHINERY-', size=(9, 8))],
+                        [sg.Stretch(), sg.Text("welding job price "), sg.Input('4350000', key='-INPUTPRICEWELDING-', size=(9, 8))],
+                        [sg.Stretch(), sg.Text("polish and paint"), sg.Input('4350000', key='-INPUTPRICEPAINT-', size=(9, 8))],
+                           [sg.Stretch(), sg.Text("waterjet-laser cutting "), sg.Input('4350000', key='-INPUTPRICESWATERJET-', size=(9, 8))],
+                           [sg.Stretch(), sg.Text("wirecut price for drw"), sg.Input('4350000', key='-INPUTPRICEWIRECUT-', size=(9, 8))],
+                           [sg.Stretch(), sg.Text("boxing price"), sg.Input('4350000', key='-INPUTPRICEBOXING-', size=(9, 8))],
+                           [sg.Stretch(), sg.Text("Shipping total"), sg.Input('4350000', key='-INPUTPRICESHIPPING-', size=(9, 8))] ]
                            
     insertconst_layout = [
               [sg.HorizontalSeparator()],
@@ -108,37 +107,43 @@ def make_window(theme):
               [sg.Column(col1, key='c1', element_justification='c', expand_x=True),
                sg.Column(col2, key='c2', element_justification='c', expand_x=True),
                sg.Column(col3, key='c3', element_justification='c', expand_x=True)],
-              [sg.VStretch()], 
+              [sg.VStretch()],
               [sg.HorizontalSeparator()],
-              [sg.Button('Save',key='-BTNSAVEPRICE-'), sg.Button('Cancel',key='-BTNCANCALPRICE-'),sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-LOGOBTNPRICE-')],
-    [sg.VStretch()]]    
+              [sg.Button('Save', key='-BTNSAVEPRICE-'), sg.Button('Cancel', key='-BTNCANCALPRICE-'), sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-LOGOBTNPRICE-')],
+    [sg.VStretch()]]
     
       
      
     
    # layout = [ [sg.MenubarCustom(menu_def, key='-MENU-', font='Courier 15', tearoff=True)]]
-    layout =[[sg.TabGroup([[  sg.Tab('Rupture Disks', rupture_layout,key='-rupturetab-',visible=True),
-                               sg.Tab('Holders', holder_layout,key='-holdertab-',visible=False),
-                               sg.Tab('FlameArrestor', flamearrestor_layout,key='-flamearrestortab-',visible=False),
-                               sg.Tab('BreatherValve', breathervalve_layout,key='-breathervalvetab-',visible=False),
-                               sg.Tab('prices',insertconst_layout,key='-pricetab-',visible=False)]], key='-TAB GROUP-', expand_x=True, expand_y=True),
+    layout =[[sg.TabGroup([[sg.Tab('Rupture Disks', rupture_layout, key='-rupturetab-', visible=True),
+                                    sg.Tab('Holders', holder_layout, key='-holdertab-', visible=False),
+                                    sg.Tab('FlameArrestor', flamearrestor_layout, key='-flamearrestortab-', visible=False),
+                                    sg.Tab('BreatherValve', breathervalve_layout, key='-breathervalvetab-', visible=False),
+                                    sg.Tab('prices', insertconst_layout, key='-pricetab-', visible=False)]], key='-TAB GROUP-', expand_x=True, expand_y=True),
 
-               ]]
+              ]]
     layout[-1].append(sg.Sizegrip())
-    window = sg.Window('koalium Ltd ', layout, right_click_menu=right_click_menu_def, right_click_menu_tearoff=True, grab_anywhere=True, resizable=True, margins=(0,0), use_custom_titlebar=False, finalize=True, keep_on_top=False,no_titlebar=False,)
+    window = sg.Window('koalium Ltd ', layout, right_click_menu=right_click_menu_def, right_click_menu_tearoff=True, grab_anywhere=True, resizable=True, margins=(0, 0), use_custom_titlebar=False, finalize=True, keep_on_top=False, no_titlebar=False,  enable_window_config_events=True)
     window.set_min_size(window.size)
+    
     return window
 
 def saveallwindovalueascan(values):
     for key in keys_to_save:
         if type(values[key]) != type("a") or type(2.0) or type(1):
             continue
-        sg.user_settings_set_entry(key, values[key])   
+        sg.user_settings_set_entry(key, values[key])
         
 def main():
     Global_plane=[]
+    graphdarawn=False
+    gsize = (800,400)
+    
     
     window = make_window(sg.theme())
+    orig_win_size = window.current_size_accurate()
+    graph = window['-GRAPH-'] 
     tickcounter = 0
     # This is an Event Loop 
     while True:
@@ -151,14 +156,17 @@ def main():
                 print(key, ' = ',values[key])
         #
         if event == sg.WIN_CLOSED :
-                               
+            window.close()                     
             break
+        
+        
+              
         if event == event == 'Exit':
             for key in keys_to_save:
                 if type(values[key]) != type("a") or type(2.0) or type(1):
                     continue
-                sg.user_settings_set_entry(key, values[key])   
-                
+                sg.user_settings_set_entry(key, values[key])
+            window.close()      
             break
         
         if  len(values['-INPUTRNS-']) and values['-INPUTRNS-'][-1] not in ('0123456789.'):
@@ -172,39 +180,40 @@ def main():
             continue       
             
         if event == '-BTNLOGOR-':
-            Global_plane=rupturebtnlogo(window,values)
+            graphdarawn=True
+            rupturebtnlogo(window, values)
             
         #ppop
         elif event == 'Next':
             
-            Global_plane=rupturegraphnext(window,values)
+            Global_plane=rupturegraphnext(window, values)
         #   
         elif event == 'Prev':
             
-            Global_plane=rupturegraphnext(window,values)
+            Global_plane=rupturegraphnext(window, values)
         #           
         elif event == '-BTNMTOR-':
-            rupturebtnmto(window,values)
+            rupturebtnmto(window, values)
         #
         elif event == '-BTNSAVER-':
-            notfountsizeerrorgui(rupturebtnsave(window,values))
+            notfountsizeerrorgui(rupturebtnsave(window, values))
             print("[LOG] Clicked BTNSAVER")
             for key in keys_to_save:
-                sg.user_settings_set_entry(key, values[key])            
+                sg.user_settings_set_entry(key, values[key])
             
         #ppop        
         elif event == '-BTNMTOH-':
             print("[LOG] Clicked BTNMTOH")
-            holderbtnsmto(window,values)
+            holderbtnsmto(window, values)
         #
         #
         elif event == '-BTNSAVEH-':
-            holderbtnsave(window,values)
+            holderbtnsave(window, values)
             
             
         #
         elif event == '-BTNLOGOH-':
-            holderbtnlogo(window,values)
+            holderbtnlogo(window, values)
             print("[LOG] Clicked BTNLOGOH!")
             
         #
@@ -236,7 +245,7 @@ def main():
         #
         elif event == 'Save as':
             for key in keys_to_save:
-                sg.user_settings_set_entry(key, values[key])           
+                sg.user_settings_set_entry(key, values[key])
             
             print("[LOG] Clicked 'Save as'!")      
         #
