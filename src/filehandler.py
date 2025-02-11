@@ -15,7 +15,6 @@ def mylister(filename = dbfilename,sheetname='size',colname='index'):
 <<<<<<< Updated upstream
 def structsheetfromreadedexcel__(sn):
     dbfilename='mainDB_.xlsx'
-=======
 
 def structmakinerfromexcel(sn):
     
