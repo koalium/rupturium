@@ -140,7 +140,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                        'selection_end': 159,
                        'selection_start': 159,
                        'zoom': 0})],
-<<<<<<< Updated upstream
+
         'primary_view_state': {'editor_states': ({'bookmarks': ([[loc('mgui.py'),
         {'attrib-starts': [('make_window|0|',
                             25)],
@@ -193,7 +193,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                              8)],
           'code-line': '        \r\n',
           'first-line': 0,
-=======
+
         'primary_view_state': {'editor_states': ({'bookmarks': ([[loc('globalvars.py'),
         {'attrib-starts': [],
          'code-line': 'sheetnameofdatabase.append(sheetnameresault)\r\n',
@@ -325,14 +325,14 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                              8)],
           'code-line': '            SHW = rupturesealrolewidthmm\r\n',
           'first-line': 56,
->>>>>>> Stashed changes
+
           'folded-linenos': [],
           'sel-line': 78,
           'sel-line-start': 2024,
           'selection_end': 2064,
           'selection_start': 2064,
           'zoom': 0},
-<<<<<<< Updated upstream
+
          1739113020.0148678],
         [loc('globalvars.py'),
          {'attrib-starts': [],
@@ -509,7 +509,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
           'selection_start': 12223,
           'zoom': 0},
          1739113200.4953635]],
-=======
+
          1738834156.8680215],
         [loc('mtomaker.py'),
          {'attrib-starts': [('makeandwritemtoforrupture|0|',
@@ -606,7 +606,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
           'selection_start': 2624,
           'zoom': 0},
          1738834265.3914337]],
->>>>>>> Stashed changes
+
         20),
         'current-loc': loc('main.py'),
         'editor-state-list': [(loc('calculation.py'),
@@ -631,7 +631,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                 'selection_start': 0,
                                 'zoom': 0}),
                               (loc('filehandler.py'),
-<<<<<<< Updated upstream
+
                                {'attrib-starts': [('getoverqtyrupturefortest|0|',
         39)],
                                 'code-line': '            \r\n',
@@ -651,7 +651,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                 'sel-line-start': 1443,
                                 'selection_end': 1466,
                                 'selection_start': 1443,
-=======
+
                                {'attrib-starts': [('sortingbyrburstpressure|0|',
         140)],
                                 'code-line': '        rds.append(abs(rbp-float(rd[2])))\r\n',
@@ -671,7 +671,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                 'sel-line-start': 1674,
                                 'selection_end': 1697,
                                 'selection_start': 1674,
->>>>>>> Stashed changes
+
                                 'zoom': 0}),
                               (loc('graphdraw.py'),
                                {'attrib-starts': [('drawrupturescirclesinplate|0|',
@@ -719,13 +719,13 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                               (loc('mtomaker.py'),
                                {'attrib-starts': [('makeandwritemtoforrupture|0|',
         8)],
-<<<<<<< Updated upstream
+
                                 'code-line': '        \r\n',
                                 'first-line': 0,
-=======
+
                                 'code-line': '        eprppmat=eprppmat.__add__(str(rawsheetdim[1]))\r\n',
                                 'first-line': 72,
->>>>>>> Stashed changes
+
                                 'folded-linenos': [],
                                 'sel-line': 91,
                                 'sel-line-start': 2586,
@@ -766,7 +766,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
          loc('main.py'),
          loc('mgui.py'),
          loc('mtomaker.py'),
-<<<<<<< Updated upstream
+
          loc('templater.py')]),
                                'open_files': ['databaser.py',
         'calculation.py',
@@ -777,7 +777,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'graphdraw.py',
         'globalvars.py',
         'mgui.py',
-=======
+
          loc('templater.py'),
          loc('file:C:/Program Files/Python312/Lib/site-packages/pandas/io/excel/_base.py')]),
                                'open_files': ['calculation.py',
@@ -789,7 +789,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'mgui.py',
         'globalvars.py',
         'mtomaker.py',
->>>>>>> Stashed changes
+
         'main.py']},
         'saved_notebook_display': None,
         'split_percents': {0: 0.5},
@@ -797,11 +797,11 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'tab_location': 'top',
         'traversal_pos': ((1,
                            0),
-<<<<<<< Updated upstream
+
                           1739113472.775495),
-=======
+
                           1738832396.9428232),
->>>>>>> Stashed changes
+
         'user_data': {}},
                  'saved_notebook_display': None,
                  'split_percents': {},
@@ -811,7 +811,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                     0),
                                    1736666195.174805),
                  'user_data': {}},
-<<<<<<< Updated upstream
+
         'window-alloc': (-466,
                          161,
                          1898,
@@ -826,7 +826,7 @@ guimgr.recent-documents = [loc('main.py'),
                            loc('templater.py'),
                            loc('calculation.py'),
                            loc('databaser.py')]
-=======
+
         'window-alloc': (7,
                          106,
                          1894,
@@ -840,7 +840,7 @@ guimgr.recent-documents = [loc('main.py'),
                            loc('databaser.py'),
                            loc('handler.py'),
                            loc('templater.py')]
->>>>>>> Stashed changes
+
 guimgr.visual-state = {loc('FreeSimpleGUIWeb.py'): {'attrib-starts': [],
         'code-line': 'window.close()',
         'first-line': 42,
@@ -1252,11 +1252,11 @@ search.search-history = ['structmakinerfromexcel',
                          "'reverse'",
                          "'rupture'",
 <<<<<<< HEAD
-<<<<<<< Updated upstream
+
                          "'bt'",
                          "'bp'"]
-=======
-=======
+
+
 >>>>>>> f0cab28f2ea8f6714b9fc09e1659ce5aa8ba60dd
                          "'bt'"]
 guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
@@ -1361,7 +1361,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'primary_view_state': {'editor_states': ({'bookmarks': ([[loc('databaser.py'),
         {'attrib-starts': [],
          'code-line': '',
-=======
+
         'primary_view_state': {'editor_states': ({'bookmarks': ([[loc('filehandler.py'),
         {'attrib-starts': [],
          'code-line': 'from globalvars import *\r\n',
@@ -1386,7 +1386,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
           'selection_start': 0,
           'zoom': 0},
          1739260425.4916594],
-=======
+
         1739260425.4916594],
 >>>>>>> f0cab28f2ea8f6714b9fc09e1659ce5aa8ba60dd
         [loc('globalvars.py'),
@@ -1748,7 +1748,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
         'globalvars.py',
         'handler.py',
         'main.py']},
-=======
+
          1739260471.9377632],
         [loc('main.py'),
          {'attrib-starts': [],
@@ -1777,7 +1777,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                            1),
 <<<<<<< HEAD
                           1739260449.118617),
-=======
+
                           1739260474.9431396),
 >>>>>>> f0cab28f2ea8f6714b9fc09e1659ce5aa8ba60dd
         'user_data': {}},
@@ -1794,8 +1794,8 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                          1898,
                          1026)}]}
 <<<<<<< HEAD
->>>>>>> Stashed changes
-=======
+
+
 >>>>>>> f0cab28f2ea8f6714b9fc09e1659ce5aa8ba60dd
 debug.show-args-dialog = {loc('mgui.py'): False}
 gui.perspective-auto = True
@@ -2163,7 +2163,7 @@ guimgr.overall-gui-state = {'windowing-policy': 'combined-window',
                                 'zoom': 0}),
                               (loc('globalvars.py'),
                                {'attrib-starts': [],
-                                'code-line': '<<<<<<< Updated upstream\r\n',
+                                'code-line': '\r\n',
                                 'first-line': 0,
                                 'folded-linenos': [],
                                 'sel-line': 13,

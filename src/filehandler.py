@@ -12,14 +12,12 @@ def mylister(filename = dbfilename,sheetname='size',colname='index'):
     for s in sh[str(colname).lower()]:
         mr.append(str(s))
     return mr
-<<<<<<< Updated upstream
+
 def structsheetfromreadedexcel__(sn):
     dbfilename='mainDB_.xlsx'
 
-def structmakinerfromexcel(sn):
-    
     import pandas as pd
->>>>>>> Stashed changes
+
     hsheet = pd.read_excel(dbfilename, sheet_name =str(sn.lower()), index_col=None, header=0)
     df = pd.DataFrame(hsheet)    
     data=[]
@@ -118,11 +116,11 @@ def getmaterialnamepriceunit(mat='s316'):
         
    
 def getrupturelayers(rtype='reverse'):
-<<<<<<< Updated upstream
+
     data = structsheetfromreadedexcel('reverse')
-=======
+
     data = structmakinerfromexcel(rtype)
->>>>>>> Stashed changes
+
     dd=[]
     r=[]
     mr=[]

@@ -56,14 +56,14 @@ sheetnameofdatabase.append(rawsizesheet)
 ruplasermargin=5
 rupturerawplatewidthmm=1000
 rupturerawplateheightmm=2000
-<<<<<<< Updated upstream
+ 
 rupturelasermetalsheetedgemargins=15
 rupturelasermetalsheetcutwidth=3
 rupturelasermetalsheetcutmargins=3
-=======
+
 rupturesealrolewidthmm=1200
 rupturesealroleheightmm=12000
->>>>>>> Stashed changes
+
 rupturelasermargin=5
 findres =[]
 findsize=[]
@@ -110,18 +110,18 @@ rawsheetheightmainlayers=1000
 rawsheetheightseallayer=4000
 
 
-<<<<<<< Updated upstream
-=======
+ 
+
 def getreadresulttestrupturefromdb(dbfile=dbfilename):
     import filehandler as fh
-    return fh.structmakinerfromexcel(sn=sheetnameresault)
+    return fh.structsheetfromreadedexcel__(sn=sheetnameresault)
 
 def initmaindatafromdbfileexcel(dbf=dbfilename):
     import filehandler as fh
     data=[]
     for shn in sheetnameofdatabase:
-        data.append(fh.structmakinerfromexcel(sn=shn))
+        data.append(fh.structsheetfromreadedexcel__(sn=shn))
     return data
 
 global_readfromdb=initmaindatafromdbfileexcel()
->>>>>>> Stashed changes
+

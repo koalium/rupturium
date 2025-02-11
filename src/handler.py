@@ -124,7 +124,7 @@ def holderbtnlogo(w,v):
 def notvalidsizeexeption(elementsize=2,elementname='rupture',elementtype='reverse'):
     ed=getdimensionbysizetype(element=elementname.lower(),etype=elementtype.lower(),esize=elementsize)
     if len(ed)==0:
-        sg.popup('its not a valid size for ruptures, please insert valid size in size input', keep_on_top=True)  
+        sg.popup(f'{elementsize} not a valid size for {elementname} as {elementtype}, please insert valid size in size input', keep_on_top=True)  
         ed=[0,0,0,0,0,0,0,0]
         return False 
 
