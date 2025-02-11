@@ -1,20 +1,26 @@
 from globalvars import *
-from filehandler import *
+
 from calculation import *
 import pandas as pd
 import os
  
 #make a list of materials
-def mylister(filename,sheetname,colname):
+def mylister(filename = dbfilename,sheetname='size',colname='index'):
     
-    sh = pd.read_excel(dbfilename.lower(), sheet_name =sheetname.lower())
+    sh = pd.read_excel(dbfilename, sheet_name =sheetname.lower())
     mr=[]
     for s in sh[str(colname).lower()]:
         mr.append(str(s))
-    
     return mr
+<<<<<<< Updated upstream
 def structsheetfromreadedexcel__(sn):
     dbfilename='mainDB_.xlsx'
+=======
+
+def structmakinerfromexcel(sn):
+    
+    import pandas as pd
+>>>>>>> Stashed changes
     hsheet = pd.read_excel(dbfilename, sheet_name =str(sn.lower()), index_col=None, header=0)
     df = pd.DataFrame(hsheet)    
     data=[]
@@ -113,7 +119,11 @@ def getmaterialnamepriceunit(mat='s316'):
         
    
 def getrupturelayers(rtype='reverse'):
+<<<<<<< Updated upstream
     data = structsheetfromreadedexcel('reverse')
+=======
+    data = structmakinerfromexcel(rtype)
+>>>>>>> Stashed changes
     dd=[]
     r=[]
     mr=[]
@@ -142,7 +152,17 @@ def getrupturelayers(rtype='reverse'):
         dd.append(r)
     return dd 
 
-
+def getrupturesizetypedforbp(rtype='reverse',rsize=4,rbp=3.66):
+    rupresdata=global_readfromdb[2]
+    rst=[]
+    for d in rupresdata:
+        if d[1]==rtype and float(d[2]) == float(rsize):
+            d.append(abs(rbp-d[6]))
+            rst.append(d)
+            rst.append(abs(rbp-float(d[6])))
+    sdata=     sorted(rst,key=lambda x:x[1])
+    return sdata
+        
 def findsizeequalityvalue(rtype='reverse',rsize=2):
     data = getrupturelayers(rtype)
     sized=[]
@@ -158,7 +178,7 @@ def sortingbyrburstpressure(rtype='reverse',rsize=2,rbp=5):
     data=[]
     for rds in datas:
         rd = rds[1]
-        rds.append(abs(rbp-float(rd[0])))
+        rds.append(abs(rbp-float(rd[2])))
         data.append(rds)
     sdata=     sorted(data,key=lambda x:x[3])
     return sdata
@@ -172,7 +192,16 @@ def findneardesignedruptureperv(rtype='reverse',rsize=2,rbp=5):
         data = sortingbyrburstpressure(rtype,rsize,rbp)
         return data[0]
  
-
+def rupturefindforthesecondition(rtype='reverse',rsize=2,rbp=5):
+    cfr= sortingbyrburstpressure(rtype,rsize,rbp)
+    if len(data)==0:
+        return eprppmat
+    laym=[]
+    layers=data[0]    
+    
+def getreadresulttestrupturefromdb(dbfile=default_dbfilename):
+    from globalvars import Global_Result
+    Global_Result = structmakinerfromexcel('result')
     
         
 def getdimensionbysizetype(element='rupture',etype='reverse',esize=2):

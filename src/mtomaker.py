@@ -7,9 +7,10 @@ import os
 
 
 def makeandwritemtoforrupture(ruptomto=ruptomtodef):
-    SHW=rawsheetwidemainlayers
-    SHH =1000
-    TSHW=1200
+       
+    SHW=rupturerawplatewidthmm
+    SHH =rupturerawplateheightmm
+    TSHW=rupturesealrolewidthmm
     rtype =ruptomto[0]
     rsize=ruptomto[1]
     rbp=ruptomto[2]
@@ -68,14 +69,15 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
             en = mtoit[2]
             nn = en[0]            
             enameln = str(nn[1])
-            SHW=rawsheetwideseallayer
-            SHH = rawsheetheightseallayer
+            
+            SHW=rupturesealrolewidthmm
+            SHH = rupturesealroleheightmm
         else:
             en = mtoit[1]
             nn = en[0]            
             enameln = str(nn[1])
-            SHW = rawsheetwidemainlayers
-            SHH = rawsheetheightmainlayers
+            SHW = rupturerawplatewidthmm
+            SHH = rupturerawplateheightmm
         ename = ename.__add__(enameln)    
         ename = ename.__add__(" ")
         ename = ename.__add__(str(getmaterialnamefa(lm)))
