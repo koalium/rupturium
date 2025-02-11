@@ -7,6 +7,14 @@ Global_Flat=[]
 Global_Size=[]
 Global_Mto=[]
 Global_testqty=[]
+<<<<<<< Updated upstream
+=======
+
+gdata_={'material':Global_Materials,'test':Global_testqty,'mto':Global_Mto,'size':Global_Size,'reverse':Global_Reverse,'forward':Global_Forward,'flat':Global_Flat}
+
+global_readfromdb=[]
+
+>>>>>>> Stashed changes
 
 filpathdef = '../my_data/001.xlsx'
 file_path = '../my_data/my_file.txt'
