@@ -5,8 +5,7 @@ from graphdraw import *
 from mtomaker import *
 
 
-def rupturesettype(rtype):
-    ruptureprojectelementformto.fromkeys(rbp)
+
 def rupturebtnmto(w,v):
     
     

@@ -98,7 +98,7 @@ mainmaterialheader = 'mainmat'
 
 
 
-keys_to_save = ('-COMBOTYPER-', '-INPUTRNS-', '-SPINRQTY-','-SPINHQTY-', '-COMBOMAINMATERIALR-', '-COMBOSEALMATERIALR-', '-COMBOSUBATERIALR-', '-CBSENR-','-CBBXGR-', '-COMBOTYPEH-', '-INPUTHNS-','-COMBOMAINMATERIALH-','-CBSHPR-','-CBWJLR-', '-CBWRCR-', '-CBANMR-',  '-INPUTRBT-', '-INPUTRBP-', '-CBGKTH-','-COMBOMAINMATERIALRH-','-SPINRHQTY-','-CBBHLDR-','-CBGKTRH-','-CBSENR-')
+keys_to_save = ('-COMBOTYPER-', '-INPUTRNS-', '-SPINRQTY-','-SPINHQTY-', '-COMBOMAINMATERIALR-', '-COMBOSEALMATERIALR-', '-COMBOSUBATERIALR-', '-CBSENR-','-CBBXGR-', '-COMBOTYPEH-', '-INPUTHNS-','-COMBOMAINMATERIALH-','-CBSHPR-','-CBWJLR-', '-CBWRCR-', '-CBANMR-','-CBTAGR-','-SPINMAQTY-','-SPINRSNSQTY-',  '-INPUTRBT-', '-INPUTRBP-', '-CBGKTH-','-COMBOMAINMATERIALRH-','-SPINRHQTY-','-CBBHLDR-','-CBGKTRH-','-CBSENR-')
 
 key_to_database=('material','reverse','forward','flat','size','mto','test')
 
@@ -108,20 +108,3 @@ rawsheetwidemainlayers=2000
 rawsheetwideseallayer=1200
 rawsheetheightmainlayers=1000
 rawsheetheightseallayer=4000
-
-
- 
-
-def getreadresulttestrupturefromdb(dbfile=dbfilename):
-    import filehandler as fh
-    return fh.structsheetfromreadedexcel__(sn=sheetnameresault)
-
-def initmaindatafromdbfileexcel(dbf=dbfilename):
-    import filehandler as fh
-    data=[]
-    for shn in sheetnameofdatabase:
-        data.append(fh.structsheetfromreadedexcel__(sn=shn))
-    return data
-
-global_readfromdb=initmaindatafromdbfileexcel()
-

@@ -117,9 +117,8 @@ def getmaterialnamepriceunit(mat='s316'):
    
 def getrupturelayers(rtype='reverse'):
 
-    data = structsheetfromreadedexcel('reverse')
-
-    data = structmakinerfromexcel(rtype)
+    
+    data = structsheetfromreadedexcel(rtype)
 
     dd=[]
     r=[]
@@ -149,16 +148,7 @@ def getrupturelayers(rtype='reverse'):
         dd.append(r)
     return dd 
 
-def getrupturesizetypedforbp(rtype='reverse',rsize=4,rbp=3.66):
-    rupresdata=global_readfromdb[2]
-    rst=[]
-    for d in rupresdata:
-        if d[1]==rtype and float(d[2]) == float(rsize):
-            d.append(abs(rbp-d[6]))
-            rst.append(d)
-            rst.append(abs(rbp-float(d[6])))
-    sdata=     sorted(rst,key=lambda x:x[1])
-    return sdata
+
         
 def findsizeequalityvalue(rtype='reverse',rsize=2):
     data = getrupturelayers(rtype)
@@ -188,17 +178,6 @@ def findneardesignedruptureperv(rtype='reverse',rsize=2,rbp=5):
         rsize=rsize+2
         data = sortingbyrburstpressure(rtype,rsize,rbp)
         return data[0]
- 
-def rupturefindforthesecondition(rtype='reverse',rsize=2,rbp=5):
-    cfr= sortingbyrburstpressure(rtype,rsize,rbp)
-    if len(data)==0:
-        return eprppmat
-    laym=[]
-    layers=data[0]    
-    
-def getreadresulttestrupturefromdb(dbfile=default_dbfilename):
-    from globalvars import Global_Result
-    Global_Result = structmakinerfromexcel('result')
     
         
 def getdimensionbysizetype(element='rupture',etype='reverse',esize=2):

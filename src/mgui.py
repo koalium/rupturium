@@ -44,9 +44,9 @@ def make_window(theme):
     rupture_layout =  [[sg.Menu(menu_def, key='-MENU-')],
                 [sg.Text('Type:', font = ('Calibri', 12, 'bold')), sg.Combo(values=('Reverse', 'Forward', 'Flat'), default_value='Reverse', readonly=True, k='-COMBOTYPER-'), sg.Text(' Nominal Size:', font = ('Calibri', 12, 'bold')), sg.Input('2', key='-INPUTRNS-', size=(3, 8)), sg.Text('Burst Pressure:'), sg.Input('5', key='-INPUTRBP-', size=(5, 5)), sg.Text('Burst Temprature:'), sg.Input('25', key='-INPUTRBT-', size=(3, 5)), sg.Text('Qty', font = ('Arial', 12)), sg.Spin([i for i in range(0, 1001)], initial_value=1, k='-SPINRQTY-')],
                 [sg.HorizontalSeparator()],
-                [sg.Text('Materials:', font = ('Arial', 14, 'bold')), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__() - 6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALR-'), sg.Combo(values=(mainmatlist[mainmatlist.__len__():mainmatlist.__len__() - 6:-1]), default_value=mainmatlist[mainmatlist.__len__() - 1], readonly=True, k='-COMBOSEALMATERIALR-'), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__()]), default_value=mainmatlist[2], readonly=True, k='-COMBOSUBATERIALR-'), sg.Checkbox('material analysis', default=True, k='-CBANMR-'), sg.Text(' MA-Qty', font = ('Arial', 12),k='-matextqty-'), sg.Spin([i for i in range(0, 1001)], initial_value=1, k='-SPINRQTY-'), sg.Stretch()],
+                [sg.Text('Materials:', font = ('Arial', 14, 'bold')), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__() - 6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALR-'), sg.Combo(values=(mainmatlist[mainmatlist.__len__():mainmatlist.__len__() - 6:-1]), default_value=mainmatlist[mainmatlist.__len__() - 1], readonly=True, k='-COMBOSEALMATERIALR-'), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__()]), default_value=mainmatlist[2], readonly=True, k='-COMBOSUBATERIALR-'), sg.Checkbox('material analysis', default=False, k='-CBANMR-'), sg.Text(' MA-Qty', font = ('Arial', 12),k='-matextqty-'), sg.Spin([i for i in range(0, 1001)], initial_value=0, k='-SPINMAQTY-')],
                 [sg.Checkbox('wirecut', font = ('bold'), default=True, k='-CBWRCR-'), sg.Checkbox('waterjet/laser', default=True, k='-CBWJLR-'), sg.Checkbox('Boxing', default=True, k='-CBBXGR-'), sg.Checkbox('shipping', default=True, k='-CBSHPR-'), sg.Checkbox('Tags', default=True, k='-CBTAGR-'), sg.Checkbox('Sensor', default=False, k='-CBSENR-'), sg.Text('Sensor Qty', k='-txtsnsr-'), sg.Spin([i for i in range(0, 1001)], initial_value=0, k='-SPINRSNSQTY-')],
-                [sg.Button('MTO', button_color = ('White', 'Red'), key='-BTNMTOR-'), sg.Button('Save', key='-BTNSAVER-'), sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-BTNLOGOR-'), sg.Checkbox('Holder', font = ('Arial', 12, 'bold'), default=False, k='-CBBHLDR-'), sg.Text('Holders Qty', k='-texthldqty-'), sg.Spin([i for i in range(0, 1001)], initial_value=1, k='-SPINRHQTY-'), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__() - 6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALRH-'), sg.Checkbox('Gasket', default=True, k='-CBGKTRH-')],
+                [sg.Button('MTO', button_color = ('White', 'Red'), key='-BTNMTOR-'), sg.Button('Save', key='-BTNSAVER-'), sg.Button(image_data=sg.DEFAULT_BASE64_ICON, key='-BTNLOGOR-'), sg.Checkbox('Holder', font = ('Arial', 12, 'bold'), default=False, k='-CBBHLDR-'), sg.Text('Holders Qty', k='-texthldqty-'), sg.Spin([i for i in range(0, 1001)], initial_value=0, k='-SPINRHQTY-'), sg.Combo(values=(mainmatlist[0:mainmatlist.__len__() - 6]), default_value=mainmatlist[2], readonly=True, k='-COMBOMAINMATERIALRH-'), sg.Checkbox('Gasket', default=False, k='-CBGKTRH-')],
                 [sg.HorizontalSeparator()],
                 #[sg.Table(values=datatable, headings=headingstable, max_col_width=15,background_color='black',auto_size_columns=True,display_row_numbers=True,justification='right',num_rows=2,alternating_row_color='black',
                                                 #key='-TABLE-',
@@ -314,7 +314,14 @@ def main():
         else:
             window['-txtsnsr-'].update(visible=False) 
             window['-SPINRSNSQTY-'].update(visible=False) 
+        #
+        if values['-CBANMR-']:
+            window['-matextqty-'].update(visible=True) 
+            window['-SPINMAQTY-'].update(visible=True) 
                 
+        else:
+            window['-matextqty-'].update(visible=False) 
+            window['-SPINMAQTY-'].update(visible=False)        
         if tickcounter== 0:
             for key in keys_to_save:
                 saved_value = window_contents[key]
