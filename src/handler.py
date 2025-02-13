@@ -86,12 +86,23 @@ def rupturegraphnext(w,v):
     print("[LOG] logo btn on rupture tab pressed!")
     arqt= getruptureqtyrawmaterial(qty=int(v['-SPINRQTY-']),rtype=str(v['-COMBOTYPER-']).lower(),rsize=float(v['-INPUTRNS-']))
     
-    drawonrawplatenextplan(gr=w['-GRAPH-'] ,rod=r[0],arqty=arqt)
+    drawrupturescirclesinplate(gr=w['-GRAPH-'] ,rod=r[0],arqty=arqt)
     
     
 
-def rupturegraphprev(vw,v):
-    return rupturegraphnext(w,v,n)
+def rupturegraphprev(w,v):
+    print("[LOG] Next on graph rupture tab pressed!") 
+    if len(getdimensionbysizetype(element='rupture',etype=str(v['-COMBOTYPER-']).lower(),esize=v['-INPUTRNS-']))==0:
+        sg.popup('its not a valid size for ruptures, please insert valid size in size input', keep_on_top=True) 
+        return 
+    s= (v['-INPUTRNS-'])
+    r= getdimensionbysizetype(element='rupture',etype=v['-COMBOTYPER-'],esize=s)
+    if len(r)==0:
+        sg.popup('its not a valid size for ruptures, please insert valid size in size input', keep_on_top=True) 
+        return 
+    print("[LOG] logo btn on rupture tab pressed!")
+    arqt= getruptureqtyrawmaterial(qty=int(v['-SPINRQTY-']),rtype=str(v['-COMBOTYPER-']).lower(),rsize=float(v['-INPUTRNS-']))
+    drawrupturescirclesinplate(gr=w['-GRAPH-'] ,rod=r[0],arqty=arqt,plannum=-1)
 
 def holderbtnsmto(w,v):
     print("[LOG] mto btn on holder tab pressed!") 

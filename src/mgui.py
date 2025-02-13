@@ -190,7 +190,7 @@ def main():
         #   
         elif event == 'Prev':
             
-            Global_plane=rupturegraphnext(window, values)
+            Global_plane=rupturegraphprev(window, values)
         #           
         elif event == '-BTNMTOR-':
             rupturebtnmto(window, values)
