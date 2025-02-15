@@ -321,6 +321,8 @@ def excelmtofilestylerfarsi(fn='mto',shn='_mto',title='Project'):
     sheet.sheet_properties.rightToLeft = True 
     
     # Resize columns to fit the content 
+    colconter=0
+    coladder = 2
     for col in sheet.columns:
         max_length = 0 
         column = col[0].column_letter 
@@ -331,7 +333,21 @@ def excelmtofilestylerfarsi(fn='mto',shn='_mto',title='Project'):
                     max_length = len(cell.value) 
             except: 
                 pass 
-            adjusted_width = (max_length + 2) 
+            if colconter == 0:
+                coladder=3
+            elif colconter ==1:
+                coladder=8
+            elif colconter == 2:
+                coladder = 25
+            elif colconter == 3:
+                coladder = 4
+            elif colconter == 4:
+                coladder = 4
+            elif colconter>4:
+                coladder = 10
+                
+               
+            adjusted_width = (max_length + coladder) 
             sheet.column_dimensions[column].width = adjusted_width 
    
             
@@ -352,6 +368,7 @@ def excelmtofilestylerfarsi(fn='mto',shn='_mto',title='Project'):
     title_cell.font = Font(name="Arial",size=18, bold=True) 
     title_cell.alignment = Alignment(horizontal='center', vertical='center') 
     title_cell.fill = PatternFill(start_color="FFFF25", end_color="FFFF25", fill_type="solid") 
+    title_cell.border = borderH
     #title_cell.border = borderH
     # Yellow background
     print("Excel file styled and saved with wrapped text and auto-resized columns.") 

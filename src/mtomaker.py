@@ -224,15 +224,15 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         
     Q=1
     eprppmat=" "
-    holder=True
-    hqty=5
-    hmatl = layers[0]
-    hm = hmatl[0]
-    if holderadded==True:
+    
+    
+    if holderadded==True and holders[3]>0:
         
         indexconter+=1
         mtorows.append(makemtorowsforholders(indexconter,holders)[0])
         mtorows.append(makemtorowsforholders(indexconter,holders)[1])
+        if holders[4]==True:
+            pass
         indexconter+=1
     
         
@@ -271,10 +271,21 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         
     mtorows.append(["","","","","","","Total Price",f'=SUM(H3:H{indexconter+2})'])
     df1 = pd.DataFrame(mtorows,columns=mtoh)  
+    if len(holders)<3:
+        holders=['reverse',2,0,'s316']
+    
     mtoTitle = "Project ".__add__('Rupture Disks, type: ').__add__(rtype).__add__(' , Size: ').__add__(str(rsize)).__add__(' inch ,  Burst Pressure: ').__add__(str(rbp)).__add__(' Barg, Qty: ').__add__(str(qty))
+    mtoTitle=mtotabletitle(p='101',t=rtype,s=rsize,bp=rbp,tb=rbt,qb=qty,hq=holders[3])
     ffxn = getmyfilename(rt=rtype,rs=rsize,rb=rbp,rq=qty)
     return writedataframedstylishtofile(df1,ffxn,mtoTitle)
-        
+
+
+def mtotabletitle(p='101',t='reverse',s=4,bp=5.7,tb=35,qb=11,hq=0):
+    mtil = "Project ".__add__(str(p)).__add__(' :Rupture Disks, type:').__add__(t).__add__(' , Size:').__add__(str(s)).__add__(' inch ,  Burst Pressure:').__add__(str(bp)).__add__(' inch ,  Burst Temorature').__add__(str(tb)).__add__(' C, Qty:').__add__(str(qb))
+    if hq >0:
+        mtil.__add__(' , Holder QTY:').__add__(str(hq))     
+    return mtil
+   
 def makerowoftableofmto(index=1,name='sheet',prp='dimension',q='1',unit='meter',mass='_',unitprice='400000',price='5000000'):
     row=[]
     row.append(name)
@@ -310,7 +321,7 @@ def anotherselementofmto(mtoit,itnum=4,qty=1,i=4):
     ow.append(str(int(tp)))
     return ow 
 
-def makemtorowsforholder(i=1,holderprop=['reverse',2,2,'s316'],side='ps'):#i=1,htype='reverse',hsize=2,qty=2,material='s316',side='ps'):
+def makemtorowsforholder(i=1,holderprop=['reverse',2,'s316',1],side='ps'):#i=1,htype='reverse',hsize=2,qty=2,material='s316',side='ps'):
     
     
     htype=holderprop[0]
@@ -320,12 +331,9 @@ def makemtorowsforholder(i=1,holderprop=['reverse',2,2,'s316'],side='ps'):#i=1,h
     qty=holderprop[3]
     htype=htype.lower()
     hdim=getdimensionbysizetype(element='holder',etype=htype,esize=hsize)
-    hod=hdim[0]
-    hid=hdim[1]
-    hticktot=hdim[2]
+    
     psth=hdim[4]
     vsth=hdim[5]
-    hthickness=hdim[3]
     sod = findingneareststandardshaftforholder(htype=htype.lower(),hsize=hsize)
     if side=='vs':
         thickness=vsth
@@ -341,13 +349,11 @@ def makemtorowsforholder(i=1,holderprop=['reverse',2,2,'s316'],side='ps'):#i=1,h
     
     
     matnamefa = getmaterialnamefa(material)
-    matpriceperunit = getpriceofmaterialkg(material)
     
-    mtoh = getreadmtoheader()
     mtoit = getreadmtoitemorop('holder')
     
     ename = ''
-    indexconter=i
+    
     mtorows=[]
     mtro=[]
     eprppmat = ''
