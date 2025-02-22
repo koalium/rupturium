@@ -24,13 +24,30 @@ def rupturebtnmto(w,v):
     m.append(str(v['-COMBOSUBATERIALR-']))
     m.append(str(v['-COMBOSEALMATERIALR-']))
     rm.append(m)
+    rqt=[]
     overqtydes = calcoverneedruptureqtyfordesign(str(v['-COMBOTYPER-']).lower(),float(v['-INPUTRNS-']))
+    rqt.append(v['-SPINRQTY-'])
+    rqt.append(overqtydes)
     overqtystandard = getoverqtyrupturefortest(int(v['-SPINRQTY-']))
+    rqt.append(overqtystandard)
     rawmatqty = overqtystandard + overqtydes
-    rm.append(rawmatqty)
-    rm.append(bool(v['-CBSENR-']))
-    rm.append(bool(v['-CBWRCR-']))    
-    rm.append(bool(v['-CBANMR-']))
+    rm.append(rqt)
+    sens=[]
+    sens.append(bool(v['-CBSENR-']))
+    if sens[0]:
+        sens.append(int(v['-SPINRSNSQTY-'])) 
+    else:
+        sens.append(0)
+    rm.append(sens)
+    rm.append(bool(v['-CBWRCR-']))   
+    anmat=[]
+    anmat.append(bool(v['-CBANMR-']))
+    if anmat[0]:
+        anmat.append(int(v['-SPINMAQTY-'])) 
+    else:
+        anmat.append(0)
+    
+    rm.append(anmat)
     rm.append(bool(v['-CBSHPR-']))
     rm.append(bool(v['-CBBXGR-']))
     rm.append(bool(v['-CBTAGR-']))

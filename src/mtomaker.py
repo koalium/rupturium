@@ -4,6 +4,24 @@ from calculation import *
 import pandas as pd
 import os
 
+def rupturediskthicknessfinder(ruptprop=ruptomtodef):
+    rtype =ruptprop[0]
+    rsize=ruptprop[1]
+    rbp=ruptprop[2]
+    rbt=ruptprop[3]
+    lm1= ruptprop[4]
+    data = findneardesignedruptureperv(rtype,rsize,rbp)
+    lm=[]
+    lt=[]
+    ll=[]
+    layers=[]
+    if len(data>0):
+        layers=data[0]
+    for l in layers:
+        lm.append( l[0])
+        
+        lt.append( l[1])
+    return layers
 
 
 def makeandwritemtoforrupture(ruptomto=ruptomtodef):
@@ -16,10 +34,13 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
     rbp=ruptomto[2]
     rbt=ruptomto[3]
     lm1= ruptomto[4]
-    qty= ruptomto[5]
-    sensor=ruptomto[6]
+    qtyi= ruptomto[5]
+    qty=qtyi[0]+qtyi[1]+qtyi[2]
+    sensor_=ruptomto[6]
+    sensor=sensor_[0]
     wirecut=ruptomto[7]
-    analysmat=ruptomto[8]
+    analysmat_=ruptomto[8]
+    analysmat=analysmat_[0]
     ship=ruptomto[9]
     box=ruptomto[10]
     tag=ruptomto[11]
@@ -46,44 +67,43 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
     layers=data[0]
     
     seallayerfounded=False
-    layercounter=0;
+    layercounter=0
+    ruprawdia = getdimensionbysizetype('rupture',rtype,rsize)
+    rawsheetmaindim = calcrawsheetforruptures(ruprawdia,qty,SHW,SHH)  
+    rawsheetmsealdim = calcrawsheetforruptures(ruprawdia,qty,rawsheetwideseallayer,rawsheetheightseallayer)  
     for l in layers:
         ename=''
         eprppmat=''        
         isitseallayer=False
-        lm = l[0]
-        if lm.find('pt')>-1 or lm.find('pv')>-1 or lm.find('pl')>-1 or lm.find('tef')>-1 or lm.find('fep')>-1 :
-            isitseallayer=True 
-            seallayerfounded=True
-            lm = lm1[2]
-        else:
-            if layercounter==0:
-                #l = lm1[layercounter]
-                lm = lm1[layercounter]
-                layercounter=1
         lt = l[1]
         ename = ''
         en = mtoit[0]
         nn = en[0]
-        if isitseallayer:
-            en = mtoit[2]
-            nn = en[0]            
-            enameln = str(nn[1])
-            
-            SHW=rupturesealrolewidthmm
-            SHH = rupturesealroleheightmm
-        else:
+        rawsheetdim=rawsheetmaindim
+        en = mtoit[0]
+        SHW = rupturerawplatewidthmm
+        SHH = rupturerawplateheightmm    
+        lm = l[0]
+        if lm.find('pt')>-1 or lm.find('pv')>-1 or lm.find('pl')>-1 or lm.find('tef')>-1 or lm.find('fep')>-1 :
+            lm = lm1[2]
             en = mtoit[1]
-            nn = en[0]            
-            enameln = str(nn[1])
-            SHW = rupturerawplatewidthmm
-            SHH = rupturerawplateheightmm
+            SHW = rawsheetwideseallayer
+            SHH = rawsheetheightseallayer
+            rawsheetdim=rawsheetmsealdim
+        else:
+            lm = lm1[layercounter]
+            layercounter+=1
+            if layercounter>1:
+                layercounter=1
+            
+            
+            
+        nn = en[0]       
+        enameln = str(nn[1])
         ename = ename.__add__(enameln)    
         ename = ename.__add__(" ")
         ename = ename.__add__(str(getmaterialnamefa(lm)))
-        
-        ruprawdia = getdimensionbysizetype('rupture',rtype,rsize)
-        rawsheetdim = calcrawsheetforruptures(ruprawdia,qty,SHW,SHH)        
+             
         
         eprppmat=ename
         eprppmat=eprppmat.__add__(' , Thickness: ')
@@ -94,7 +114,7 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         eprppmat=eprppmat.__add__(str(rawsheetdim[0]))
         eprppmat=eprppmat.__add__(' mm ')
         
-        area = squararia(rawsheetdim[0],rawsheetdim[1])
+        area = squararia(rawsheetdim[0],rawsheetdim[1])*(rawsheetdim[2]+1)
         vol = volumeofarea(area,lt)
         dens = float(getdensityofmaterial(lm))
         
@@ -106,7 +126,7 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         mtro.append(indexconter)
         mtro.append(ename)
         mtro.append(eprppmat)
-        mtro.append(str(rawsheetdim[2]))
+        mtro.append(str(rawsheetdim[2]+1))
         unitpprice = en[1]#getunitpriceformtoitem(mtoit,1)
         mtro.append(unitpprice[0])
         mtro.append(str(round(msslayer,2)))
@@ -118,110 +138,7 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
             
         mtorows.append(mtro)       
     
-    if seallayerfounded==False:
-        ename=''
-        eprppmat=''        
-        lm = lm1[2]
-        lt=0.4
-        en = mtoit[2]
-        nn = en[0]        
-        enameln = str(nn[1])
-        SHW=rawsheetwideseallayer
-        SHH = rawsheetheightseallayer 
-        ename=''
-        ename = ename.__add__(enameln)    
-        ename = ename.__add__(" ")
-        ename = ename.__add__(str(getmaterialnamefa('teflon')))
-        
-        eprppmat=''
-        eprppmat=ename
-        eprppmat=eprppmat.__add__(' , Thickness: ')
-        eprppmat=eprppmat.__add__(str(0.5))
-        
-        ruprawdia = getdimensionbysizetype('rupture',rtype,rsize)
-        rawsheetdim = calcrawsheetforruptures(ruprawdia,qty,SHW,SHH)
-        
-        eprppmat=eprppmat.__add__(' mm  , Dim: ')
-        eprppmat=eprppmat.__add__(str(rawsheetdim[0]))
-        eprppmat=eprppmat.__add__(' * ')
-        eprppmat=eprppmat.__add__(str(rawsheetdim[1]))
-        eprppmat=eprppmat.__add__(' mm ')
-        area = squararia(rawsheetdim[0],rawsheetdim[1])
-        vol = volumeofarea(area,lt)
-        dens = float(getdensityofmaterial(lm))
     
-    
-        msslayer = massofvolumeofmaterial(vol,dens)
-    
-        mtro=[]
-        indexconter+=1
-        mtro.append(indexconter)
-        mtro.append(ename)
-        mtro.append(eprppmat)
-        mtro.append(1)
-        unitpprice = en[1]#(mtoit,1)
-        mtro.append(unitpprice[0])
-        mtro.append(str(round(msslayer,2)))
-        matpriceunit = float(getpriceofmaterialkg(lm))
-        mtro.append(str(matpriceunit))
-        matprice = calcpricebymass(matpriceunit,msslayer)
-        mtro.append(matprice)
-        mtorows.append(mtro) 
-    
-    
-                      
-    if indexconter<3:
-        ename=''
-        eprppmat=''
-        lm = lm1[1]
-        lt=0.1
-        en = mtoit[1]
-        nn = en[0]            
-        enameln = str(nn[1])
-        SHW = rawsheetwidemainlayers
-        SHH = rawsheetheightmainlayers
-        ename = ename.__add__(enameln)    
-        ename = ename.__add__(" ")
-        ename = ename.__add__(str(getmaterialnamefa(lm)))
-    
-        ruprawdia = getdimensionbysizetype('rupture',rtype,rsize)
-        rawsheetdim = calcrawsheetforruptures(ruprawdia,qty,SHW,SHH)        
-    
-        eprppmat=ename
-        eprppmat=eprppmat.__add__(' , Thickness: ')
-        eprppmat=eprppmat.__add__(str(lt))
-        eprppmat=eprppmat.__add__(' mm  , Dim: ')
-        eprppmat=eprppmat.__add__(str(rawsheetdim[0]))
-        eprppmat=eprppmat.__add__(' * ')
-        eprppmat=eprppmat.__add__(str(rawsheetdim[1]))
-        eprppmat=eprppmat.__add__(' mm ')
-    
-        area = squararia(rawsheetdim[0],rawsheetdim[1])
-        vol = volumeofarea(area,lt)
-        dens = float(getdensityofmaterial(lm))
-    
-    
-        msslayer = massofvolumeofmaterial(vol,dens)        
-        
-        
-        
-        
-        
-        mtro=[]
-        indexconter+=1
-        mtro.append(indexconter)
-        mtro.append(ename)
-        mtro.append(eprppmat)
-        mtro.append(1)
-        unitpprice = en[1]#(mtoit,1)
-        mtro.append(unitpprice[0])
-        mtro.append(str(round(msslayer,2)))
-        matpriceunit = float(getpriceofmaterialkg(lm))
-        mtro.append(str(matpriceunit))
-        matprice = calcpricebymass(matpriceunit,msslayer)
-        mtro.append(matprice) 
-        mtorows.append(mtro) 
-        
     Q=1
     eprppmat=" "
     
@@ -238,7 +155,7 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         
     if analysmat==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,3,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,3,analysmat_[1],indexconter))
         
     if water_laser==True:
         indexconter+=1
@@ -246,7 +163,7 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
    
     if sensor==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,15,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,15,sensor_[1],indexconter))
         
     if wirecut==True:
         indexconter+=1
@@ -274,14 +191,13 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
     if len(holders)<3:
         holders=['reverse',2,0,'s316']
     
-    mtoTitle = "Project ".__add__('Rupture Disks, type: ').__add__(rtype).__add__(' , Size: ').__add__(str(rsize)).__add__(' inch ,  Burst Pressure: ').__add__(str(rbp)).__add__(' Barg, Qty: ').__add__(str(qty))
-    mtoTitle=mtotabletitle(p='101',t=rtype,s=rsize,bp=rbp,tb=rbt,qb=qty,hq=holders[3])
+    mtoTitle=mtotabletitle(p='101',t=rtype,s=rsize,bp=rbp,tb=rbt,qb=qtyi[0],hq=holders[3])
     ffxn = getmyfilename(rt=rtype,rs=rsize,rb=rbp,rq=qty)
     return writedataframedstylishtofile(df1,ffxn,mtoTitle)
 
 
 def mtotabletitle(p='101',t='reverse',s=4,bp=5.7,tb=35,qb=11,hq=0):
-    mtil = "Project ".__add__(str(p)).__add__(' :Rupture Disks, type:').__add__(t).__add__(' , Size:').__add__(str(s)).__add__(' inch ,  Burst Pressure:').__add__(str(bp)).__add__(' inch ,  Burst Temorature').__add__(str(tb)).__add__(' C, Qty:').__add__(str(qb))
+    mtil = "Project ".__add__(str(p)).__add__('.. Rupture Disks: type=').__add__(t).__add__(' , Size=').__add__(str(s)).__add__(' inches, Burst Pressure:').__add__(str(bp)).__add__(' Barg,  Burst Temorature=').__add__(str(tb)).__add__(' C, Qty=').__add__(str(qb))
     if hq >0:
         mtil.__add__(' , Holder QTY:').__add__(str(hq))     
     return mtil

@@ -74,36 +74,33 @@ def calcrawsheetforruptures(rodl=118,qty=5,shw=rupturerawplatewidthmm,shh=ruptur
     y=y0
     page=1
     myrow=0
+    circount=0
+    rp=[]
+    crp=[]
+    crp.append(x)
+    crp.append(y)
+    crp.append(circount)
+    rp.append(crp)
+    crocont=0
+    shcont=0
     for i in range(qty):
-        col+=1
-        if col >= (rprm-(row%2)):
-            row+=1
-            myrow+=1
-            col = 0
         x=x+rad+cw+xsep+cw+rad
-        if x+cw+rad+rm >= shw:
+        if x+rad+cw+rm >= shw:
+            
+            row+=1
+            x=x0+(rad+cw+xsep+cw+rad)*0.5*(row%2)
             y=y+pow(3,0.5)*0.5*(rad+cw+ysep+cw+rad)
-            x=x0+(row%2)*(cw+rad+rad+cw)
-            if y> shh:
-                page+=1
+            if y+rad+cw+tm>=shh:
+                shcont+=1
                 x=x0
                 y=y0
-                myrow=0
-                
-    rawsheetheight +=  (rrod) *ystagerratio*row
-    if rawsheetheight> shh:
-        rsq = int(rawsheetheight/shh)
-        rsq+=1
-    rawsheetheightover = rawsheetheight % shh
+                row=0
+
+
     rawdim = []
-    rawdim.append(rawsheetwide)
-    rawdim.append(int(rawsheetheight))
-    rawdim.append(rsq)
-    rawdim.append(int(rawsheetheightover))
-    rawdim.append(page)
-    rawdim.append(myrow)
-    rawdim.append(x+rad+cw+rm)
-    rawdim.append(y+rad+cw+tm)
+    rawdim.append(shw)
+    rawdim.append(shh)
+    rawdim.append(shcont)
     return rawdim         
                 
     
@@ -112,17 +109,19 @@ def calcoverneedruptureqtyfordesign(rtype,rsize):
     rtype = rtype.lower()
     oq = 1
     if  rtype=='reverse':
-        oq = oq+2
-        if int(rsize)<=8:
-            return 5
+        oq+=2
+        if rsize<=4:
+            oq+=6
+        elif int(rsize)<=8:
+            oq+=5
         else:
-            return 4
+            oq+=4
     else:
         if int(rsize)>6:
-            return 2
+            oq+=2
         else:
-            return 3
-    return 1 
+            oq+=3
+    return oq
 
 def getruptureqtyrawmaterial(qty=1,rtype='flat',rsize=4):
     ar= []

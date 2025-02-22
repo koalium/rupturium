@@ -36,7 +36,7 @@ def make_window(theme):
                 ['&Option', ['&WorkSpace','&Setting']],
                 ['&Help', ['&Content','&License','U&pdate','&Help','&About']] ]
     right_click_menu_def = [[], ['Select','Edit','save']]
-    graph_right_click_menu_def = [[], ['Next','Prev','Erase','Clear']]
+    graph_right_click_menu_def = [[],['last','first','Clear']]
 
    
     headingstable = ["material","thickness","size","bpress","btemp","realbp","res","frmh","drw"]
@@ -184,11 +184,11 @@ def main():
             rupturebtnlogo(window, values)
             
         #ppop
-        elif event == 'Next':
+        elif event == 'last':
             
             Global_plane=rupturegraphnext(window, values)
         #   
-        elif event == 'Prev':
+        elif event == 'first':
             
             Global_plane=rupturegraphprev(window, values)
         #           

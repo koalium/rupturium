@@ -1,5 +1,6 @@
 from globalvars import *
-
+import threading
+import time
 from calculation import *
 import pandas as pd
 import os
@@ -12,6 +13,18 @@ def mylister(filename = dbfilename,sheetname='size',colname='index'):
     for s in sh[str(colname).lower()]:
         mr.append(str(s))
     return mr
+
+def long_operation_thread(filename = dbfilename,sheetname='size',colname='index'):
+    """
+    A worker thread that communicates with the GUI through a global message variable
+    This thread can block for as long as it wants and the GUI will not be affected
+    :param seconds: (int) How long to sleep, the ultimate blocking call
+    """
+    
+    thread = threading.Thread(target=mylister, args=(filename ,sheetname,colname), daemon=True)
+    thread.start()
+    
+    
 
 def structsheetfromreadedexcel__(sn):
     dbfilename='mainDB_.xlsx'

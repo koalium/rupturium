@@ -31,9 +31,11 @@ def pointcircleinplane(planesize=[400,200],planemargin=(8,8,8,8),circleDiameter=
     x=x0
     usedplane=[]
     cir=[]
+    circounter=0
     cir.append(x)
     cir.append(y)
     cir.append(1)
+    cir.append(0)
     cir.append(0)
     circle.append(cir)
     upw=lm+rm+r+r
@@ -44,6 +46,7 @@ def pointcircleinplane(planesize=[400,200],planemargin=(8,8,8,8),circleDiameter=
     q=aq[0]+aq[1]+aq[2]
     totalrupcc=[]
     for i in range(1,q):
+        circounter+=1
         usedplane=[]
         y=y+(r+r+ysep)
         if y+r+rm>=ph:
@@ -85,6 +88,7 @@ def pointcircleinplane(planesize=[400,200],planemargin=(8,8,8,8),circleDiameter=
             w=3
         cir.append(w)
         cir.append(z)
+        cir.append(circounter)
         totalrupcc.append(cir)
         circle.append(cir)
         upw=x+r+rm
@@ -130,6 +134,7 @@ def drawrupturescirclesinplate(gr,rod=155,arqty=[1,2,3],plannum=0):
     plan = planes[len(planes)-1]
     if plannum==-1:
         plan = planes[0]
+    
     cir=plan[0]
     upl=plan[1]
     
@@ -144,7 +149,7 @@ def drawrupturescirclesinplate(gr,rod=155,arqty=[1,2,3],plannum=0):
     gr.erase()  
     gr.draw_rectangle((rpblx,rpbly),(rpgw,rpgh), fill_color='dark green', line_color='yellow', line_width=2)
     gr.draw_rectangle((upblx,upbly),(upw,uph), fill_color='dark olive green', line_color='orange', line_width=3)
-    crcount=0;
+    crcount=0
     w=0
     z=1
     for cr in cir:
@@ -168,15 +173,26 @@ def drawrupturescirclesinplate(gr,rod=155,arqty=[1,2,3],plannum=0):
             lcor = 'magenta'
             lcm=3
         gr.draw_circle(center_location=(x,y), radius=r, fill_color='dark blue', line_color=lcor, line_width=lcm) 
-        TEXT_LOCATION = (x-r/2, y-r/4)
+        TEXT_LOCATION = (x-r/8, y-r/4)
         TEXT_COLOR = 'white'        
-        gr.draw_text(f'{crcount}', TEXT_LOCATION, font='Courier', color=lcor)
+        gr.draw_text(f'{cr[4]+1}:{crcount}', TEXT_LOCATION, font='Sans', color='white')
         print(str(cr))
     TEXT_LOCATION = (rpgw-108, rpgh-30)
-    gr.draw_text(f'sheet:{z+1}, total:{len(planes)}', TEXT_LOCATION, font='Serif', color='white')
-    return planes
+    gr.draw_text(f'sheet:{z+1}, total:{len(planes)}', TEXT_LOCATION, font=font, color='white')
+    return plannum
         
 def drawonrawplatenextplan(gr,rod=155,arqty=[1,2,3]):
     drawrupturescirclesinplate(gr,rod,arqty,-1)
-   
+    return 1
     
+def nextof(pa=[1],pn=0):
+    if len(pa)>pn:
+        return pa[pn] # type: ignore
+    else:
+        return pa[len(pa)-1]
+    
+def prevof(pa=[1],pn=0):
+    if 0<pn:
+        return pa[pn-1] # type: ignore
+    else:
+        return pa[0]

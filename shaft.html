@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Shaft with Slices (Dynamic Properties, Zoom, and Move)</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        #container {
+            width: 100vw;
+            height: 100vh;
+        }
+        .input-group {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>3D Shaft with Slices</h1>
+    <form id="shaftForm">
+        <div id="sliceInputs"></div>
+        <button type="button" onclick="addSliceInput()">Add Slice</button><br><br>
+        <button type="button" onclick="generateShaft()">Generate Shaft</button>
+    </form>
+
+    <div id="container"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let camera, renderer, scene;
+        let raycaster = new THREE.Raycaster();
+        let mouse = new THREE.Vector2();
+        let intersectPoint = new THREE.Vector3();
+
+        function addSliceInput() {
+            const sliceInputs = document.getElementById('sliceInputs');
+            const inputGroup = document.createElement('div');
+            inputGroup.className = 'input-group';
+
+            inputGroup.innerHTML = `
+                <label>Slice Length (mm):</label>
+                <input type="number" class="sliceLength" required>
+                <label>Slice Diameter (mm):</label>
+                <input type="number" class="sliceDiameter" required>
+                <label>Slice Color:</label>
+                <input type="color" class="sliceColor" required><br><br>
+            `;
+            sliceInputs.appendChild(inputGroup);
+        }
+
+        function generateShaft() {
+            const sliceLengths = document.getElementsByClassName('sliceLength');
+            const sliceDiameters = document.getElementsByClassName('sliceDiameter');
+            const sliceColors = document.getElementsByClassName('sliceColor');
+            const slices = [];
+
+            for (let i = 0; i < sliceLengths.length; i++) {
+                slices.push({
+                    length: parseFloat(sliceLengths[i].value),
+                    diameter: parseFloat(sliceDiameters[i].value),
+                    color: sliceColors[i].value
+                });
+            }
+            const shaftLength = slices.reduce((acc, val) => acc + val.length, 0);
+
+            // Create the scene
+            scene = new THREE.Scene();
+
+            // Create a camera
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = shaftLength;
+
+            // Create a renderer
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.getElementById('container').innerHTML = '';  // Clear previous content
+            document.getElementById('container').appendChild(renderer.domElement);
+
+            // Create the shaft slices (solid view)
+            let currentPosition = -shaftLength / 2;
+
+            slices.forEach((slice, index) => {
+                const geometry = new THREE.CylinderGeometry(slice.diameter / 2, slice.diameter / 2, slice.length, 32);
+                const material = new THREE.MeshStandardMaterial({ color: slice.color });
+                const sliceMesh = new THREE.Mesh(geometry, material);
+                sliceMesh.position.y = currentPosition + slice.length / 2;
+                scene.add(sliceMesh);
+                currentPosition += slice.length;
+            });
+
+            // Add a light source
+            const light = new THREE.DirectionalLight(0xffffff, 1);
+            light.position.set(1, 1, 1).normalize();
+            scene.add(light);
+
+            // Event listeners for mouse events
+            window.addEventListener('mousemove', onDocumentMouseMove, false);
+            window.addEventListener('wheel', onDocumentMouseWheel, false);
+            window.addEventListener('mousedown', onDocumentMouseDown, false);
+
+            // Animation loop
+            function animate() {
+                requestAnimationFrame(animate);
+                scene.children.forEach(child => {
+                    child.rotation.x += 0.01;
+                    child.rotation.y += 0.01;
+                });
+                renderer.render(scene, camera);
+            }
+
+            animate();
+
+            // Adjust the scene when the window is resized
+            window.addEventListener('resize', () => {
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+            });
+        }
+
+        function onDocumentMouseMove(event) {
+            event.preventDefault();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+
+            // Update the raycaster with the current mouse position
+            raycaster.setFromCamera(mouse, camera);
+
+            // Calculate objects intersecting the picking ray
+            const intersects = raycaster.intersectObjects(scene.children);
+
+            if (intersects.length > 0) {
+                intersectPoint.copy(intersects[0].point);
+            }
+        }
+
+        function onDocumentMouseWheel(event) {
+            event.preventDefault();
+            const direction = event.deltaY > 0 ? 1 : -1;
+            camera.position.lerp(intersectPoint, direction * 0.05);
+        }
+
+        function onDocumentMouseDown(event) {
+            event.preventDefault();
+            const halfWidth = window.innerWidth / 2;
+            const halfHeight = window.innerHeight / 2;
+
+            if (event.clientX < halfWidth && event.clientY < halfHeight*1.5 && event.clientY > halfHeight*0.5) {
+                // Top-left quadrant
+                camera.position.x += 15;
+				
+            } else if (event.clientX > halfWidth && event.clientY < halfHeight*1.5 && event.clientY > halfHeight*0.5) {
+                // Top-right quadrant
+                camera.position.x -= 15;
+				
+            } else if (event.clientX < halfWidth*1.5 && event.clientX > 0.5* halfWidth &&event.clientY > halfHeight) {
+                // Bottom-left quadrant
+                
+                camera.position.y -= 10;
+            } else if (event.clientX < halfWidth*1.5 && event.clientX > 0.5* halfWidth  && event.clientY < halfHeight ) {
+                // Bottom-right quadrant
+               
+			   
+                camera.position.y += 10;
+            }
+        }
+
+        // Add initial slice input fields
+        addSliceInput();
+    </script>
+</body>
+</html>
