@@ -5,8 +5,7 @@ from calculation import *
 from handler import *
 from mtomaker import *
 mainmatlist = mylister(dbfilename, materialsheetname, mainmaterialheader)
-# Create a UserSettings object. The JSON file will be saved in the same folder as this .py file
-window_contents = sg.UserSettings(path='.', filename='mysettings.json')
+
 def notfountsizeerrorgui(s):
     if s==False:
         sg.popup('incorrect and incompatible size!!!!!', keep_on_top=True)
@@ -33,7 +32,7 @@ def make_window(theme):
     sg.theme('DarkBlue')
    # matlist = matlister('mainmat')#['SS304', 'SS316', 'Monel', 'Inconel', 'Hastalloy', 'Nickel', 'Titanium', 'Aluminium', 'Silver','Pvc','Ptfe', 'Other']
     menu_def = [['&file', ['&New','&Open','&Save','&Save as','&Close','&Exit']],
-                ['&Option', ['&WorkSpace','&Setting']],
+                ['&Option', ['&Prices','&Setting']],
                 ['&Help', ['&Content','&License','U&pdate','&Help','&About']] ]
     right_click_menu_def = [[], ['Select','Edit','save']]
     graph_right_click_menu_def = [[],['last','first','Clear']]
@@ -68,16 +67,19 @@ def make_window(theme):
     breathervalve_layout = [[sg.Text("Breather Valve")]]
     
     
-    col1 = [[sg.Stretch(), sg.Text("Sheet SS304 per Kg"), sg.Input('4050000', key='-INPUTPRICESS304-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet SS316 per Kg"), sg.Input('4200000', key='-INPUTPRICESS316-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet Monel per Kg"), sg.Input('4200000', key='-INPUTPRICEMONEL-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet Inconel per Kg"), sg.Input('4200000', key='-INPUTPRICEINCONEL-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet Hastelloy per Kg"), sg.Input('4200000', key='-INPUTPRICEHASTELLOY-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet Aluminium per Kg"), sg.Input('4200000', key='-INPUTPRICEALUMINIUM-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet Titanium per Kg"), sg.Input('4200000', key='-INPUTPRICETITANIUM-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet Copper per Kg"), sg.Input('4200000', key='-INPUTPRICECOPER-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet CS per Kg"), sg.Input('4200000', key='-INPUTPRICECS-', size=(9, 8))],
-            [sg.Stretch(), sg.Text("Sheet Silver per Kg"), sg.Input('4350000', key='-INPUTPRICESILVER-', size=(9, 8))]]
+    col1 = [[sg.Stretch(), sg.Text("Sheet SS304"), sg.Input('4050000', key='-INPUTPRICESS304SHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet SS316 "), sg.Input('4200000', key='-INPUTPRICESS316SHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Monel"), sg.Input('4200000', key='-INPUTPRICEMONELSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Inconel"), sg.Input('4200000', key='-INPUTPRICEINCONELSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Hastelloy"), sg.Input('4200000', key='-INPUTPRICEHASTELLOYSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Aluminium"), sg.Input('4200000', key='-INPUTPRICEALUMINIUMSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Titanium "), sg.Input('4200000', key='-INPUTPRICETITANIUMSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Nickel "), sg.Input('1250000', key='-INPUTPRICENICKELSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Copper "), sg.Input('4200000', key='-INPUTPRICECOPERSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet CS "), sg.Input('4200000', key='-INPUTPRICECSSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet PTFE "), sg.Input('1550000', key='-INPUTPRICEPTFESHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet PVC "), sg.Input('1250000', key='-INPUTPRICEPVCSHEET-', size=(9, 8))],
+            [sg.Stretch(), sg.Text("Sheet Silver per Kg"), sg.Input('4350000', key='-INPUTPRICESHEETSILVER-', size=(9, 8))]]
     col2 = [[sg.Stretch(), sg.Text("Shaft SS304 per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFT304-', size=(9, 8))],
             [sg.Stretch(), sg.Text("Shaft SS316 per Kg"), sg.Input('4350000', key='-INPUTPRICESHAFT316-', size=(9, 8))],
             [sg.Stretch(), sg.Text("Shaft Monel per Kg"), sg.Input('4200000', key='-INPUTPRICESHAFTMONEL-', size=(9, 8))],
@@ -117,10 +119,10 @@ def make_window(theme):
     
    # layout = [ [sg.MenubarCustom(menu_def, key='-MENU-', font='Courier 15', tearoff=True)]]
     layout =[[sg.TabGroup([[sg.Tab('Rupture Disks', rupture_layout, key='-rupturetab-', visible=True),
-                                    sg.Tab('Holders', holder_layout, key='-holdertab-', visible=False),
-                                    sg.Tab('FlameArrestor', flamearrestor_layout, key='-flamearrestortab-', visible=False),
-                                    sg.Tab('BreatherValve', breathervalve_layout, key='-breathervalvetab-', visible=False),
-                                    sg.Tab('prices', insertconst_layout, key='-pricetab-', visible=False)]], key='-TAB GROUP-', expand_x=True, expand_y=True),
+                                    sg.Tab('Holders', holder_layout, key='-holdertab-', visible=False,disabled=True),
+                                    sg.Tab('FlameArrestor', flamearrestor_layout, key='-flamearrestortab-',disabled=True,visible=False),
+                                    sg.Tab('BreatherValve', breathervalve_layout, key='-breathervalvetab-', visible=False,disabled=True),
+                                    sg.Tab('prices(rls/Kg)', insertconst_layout, key='-pricetab-', visible=False,tooltip='Real Per KG',disabled=True)]], key='-TAB GROUP-',enable_events=True,change_submits=True,focus_color='darkgreen' ,expand_x=True, expand_y=True),
 
               ]]
     layout[-1].append(sg.Sizegrip())
@@ -134,13 +136,18 @@ def saveallwindovalueascan(values):
         if type(values[key]) != type("a") or type(2.0) or type(1):
             continue
         sg.user_settings_set_entry(key, values[key])
-        
+def changefocustab(tabkey='-',fotab=[]):
+    fotabs=[]
+    fotabs.append(fotab[1])
+    fotabs.append(tabkey)
+    return fotabs
 def main():
     Global_plane=[]
     graphdarawn=False
     gsize = (800,400)
-    
-    
+    focus_tab=[]
+    focus_tab.append('-rupturetab-')
+    focus_tab.append('-rupturetab-')
     window = make_window(sg.theme())
     orig_win_size = window.current_size_accurate()
     graph = window['-GRAPH-'] 
@@ -253,8 +260,10 @@ def main():
                         
             print("[LOG] Clicked Close!")      
         #
-        elif event == 'Setting':
-            window['-pricetab-'].update(visible=True)
+        elif event == 'Prices':
+            window['-pricetab-'].update(visible=True,disabled=False)
+            window['-rupturetab-'].update(visible=False,disabled=True)
+            focus_tab=changefocustab('-pricetab-',focus_tab)
             print("[LOG] Clicked Setting!")      
         # 
         elif event == 'WorkSpace':
@@ -284,15 +293,31 @@ def main():
         elif event == '-BTNSAVEPRICE-':
             print("[LOG] Clicked BTNSAVEPRICE!")    
             saveallwindovalueascan(values)   
-            window['-pricetab-'].update(visible=False)
+            window[focus_tab[0]].update(visible=True,disabled=False)
+            window['-pricetab-'].update(visible=False,disabled=True)
+            
+            focus_tab=changefocustab(focus_tab[0],focus_tab)
+            window['-pricetab-'].update(visible=False,disabled=False)
+            for key in keys_to_save:
+                if type(values[key]) != type("a") or type(2.0) or type(1):
+                    continue
+                sg.user_settings_set_entry(key, values[key])
         # 
         elif event == '-BTNCANCALPRICE-':
             print("[LOG] Clicked BTNCANCELPRICE!")  
-            window['-pricetab-'].update(visible=False)
+            window[focus_tab[0]].update(visible=True,disabled=False)
+            window['-pricetab-'].update(visible=False,disabled=True)
+            focus_tab=changefocustab(focus_tab[0],focus_tab)
+            window['-pricetab-'].update(visible=False,disabled=False)
+            
         # 
         elif event == '-LOGOBTNPRICE-':
             print("[LOG] Clicked LOGOBTNPRICE!")    
             saveallwindovalueascan(values)
+            for key in keys_to_save:
+                if type(values[key]) != type("a") or type(2.0) or type(1):
+                    continue
+                sg.user_settings_set_entry(key, values[key])
         #       
         if values['-CBBHLDR-']:
             window['-texthldqty-'].update(visible=True) 

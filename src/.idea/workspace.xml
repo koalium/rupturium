@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1ffa7f54-be5a-4621-84f1-3f2897ff8cfc" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/globalvars.py" beforeDir="false" afterPath="$PROJECT_DIR$/globalvars.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/handler.py" beforeDir="false" afterPath="$PROJECT_DIR$/handler.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mgui.py" beforeDir="false" afterPath="$PROJECT_DIR$/mgui.py" afterDir="false" />
-    </list>
+    <list default="true" id="1ffa7f54-be5a-4621-84f1-3f2897ff8cfc" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,9 +13,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="2snq28pccUwMs6yIeGYZA0jzZzx" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -27,21 +23,51 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.$FilePath$.executor": "Run",
     "Python.globalvars.executor": "Debug",
     "Python.graphdraw.executor": "Run",
     "Python.main.executor": "Run",
     "Python.mgui.executor": "Run",
+    "Python.python.exe.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "reversion",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "last_opened_file_path": "C:/Program Files/Python312/python.exe",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="python.exe" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+      <module name="src" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="SDK_NAME" value="Python 3.13 (src)" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="C:/Program Files/Python312/python.exe" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -59,6 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1739101479278</updated>
       <workItem from="1739101481632" duration="829000" />
+      <workItem from="1740632191393" duration="593000" />
     </task>
     <servers />
   </component>

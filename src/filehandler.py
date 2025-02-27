@@ -5,6 +5,10 @@ from calculation import *
 import pandas as pd
 import os
  
+price_keys=('-INPUTPRICESS304SHEET-','-INPUTPRICENICKELSHEET-','-INPUTPRICESS316SHEET-','-INPUTPRICEMONELSHEET-', '-INPUTPRICEINCONELSHEET-','-INPUTPRICEHASTELLOYSHEET-','-INPUTPRICEALUMINIUMSHEET-','-INPUTPRICETITANIUMSHEET-','-INPUTPRICECOPERSHEET-',
+           '-INPUTPRICECSSHEET-','-INPUTPRICEPTFESHEET-', '-INPUTPRICEPVCSHEET-', '-INPUTPRICESILVERSHEET-', '-INPUTPRICESHAFT304-','-INPUTPRICESHAFT316-','-INPUTPRICESHAFTMONEL-','-INPUTPRICESHAFTINCONEL-',
+           '-INPUTPRICESHAFTHASTELLOY-','-INPUTPRICESHAFTALUMINIUM-','-INPUTPRICESHAFTCOPPER-','-INPUTPRICESHAFTTITANIUM-', '-INPUTPRICESHAFTCS-','-INPUTPRICESHAFTSILVER-', '-INPUTPRICESTESTING-',
+           '-INPUTPRICESTAG-', '-INPUTPRICEMILLING-','-INPUTPRICEMACHINERY-', '-INPUTPRICEWELDING-','-INPUTPRICEPAINT-', '-INPUTPRICESWATERJET-','-INPUTPRICEWIRECUT-','-INPUTPRICEBOXING-','-INPUTPRICESHIPPING-')
 #make a list of materials
 def mylister(filename = dbfilename,sheetname='size',colname='index'):
     
@@ -119,6 +123,9 @@ def findmaterialifpredefined(mat='s316'):
     ndd.append(5000000)
     return ndd
 
+
+
+
 def getmaterialnamefa(mat='s316'):
     mf = findmaterialifpredefined(mat)
     return str(mf[3])
@@ -126,7 +133,8 @@ def getmaterialnamefa(mat='s316'):
 def getmaterialnamepriceunit(mat='s316'):
     mf = findmaterialifpredefined(mat)
     return str(mf[5])
-        
+
+   
    
 def getrupturelayers(rtype='reverse'):
 
@@ -407,6 +415,15 @@ def getdensityofmaterial(mat='s316'):
 def getpriceofmaterialkg(mat):
     mf = findmaterialifpredefined(mat)
     return str(mf[5])  
+
+def findpricefromconfigprice(mat='s316',tip='SHEET',val=[]):
+    mat=mat.upper()
+    tip=tip.upper()
+    for key in keys_to_save:
+        if str(key).find(mat)>-1 and tip in str(key):
+            return val[key]
+                
+    return getpriceofmaterialkg(mat=mat)     
 
 def getunitpriceformtoitem(mtoitem,itemnum):
     unit = mtoitem[itemnum]

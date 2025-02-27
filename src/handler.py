@@ -61,10 +61,18 @@ def rupturebtnmto(w,v):
     h.append(bool(v['-CBBHLDR-']))  
     
     rm.append(h)
-    md = makeandwritemtoforrupture(rm) 
+    pr=[]
     
+    pr.append(findpricefromconfigprice(mat=str(v['-COMBOMAINMATERIALR-']),tip='SHEET',val=v))
+    pr.append(findpricefromconfigprice(mat=str(v['-COMBOSUBATERIALR-']),tip='SHEET',val=v))
+    pr.append(findpricefromconfigprice(mat=str(v['-COMBOSEALMATERIALR-']),tip='SHEET',val=v))
+    rm.append(pr)
+    pr=[]
     
+    pr.append(findpricefromconfigprice(mat=str(v['-COMBOMAINMATERIALRH-']),tip='SHAFT',val=v))
+    rm.append(pr)
     print("[LOG] MTO btn on rupture tab pressed!") 
+    makeandwritemtoforrupture(rm) 
     return True
     
 def rupturebtnsave(w,v):

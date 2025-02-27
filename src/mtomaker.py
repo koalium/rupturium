@@ -46,7 +46,9 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
     tag=ruptomto[11]
     water_laser=ruptomto[12]
     holders= ruptomto[13]
-    
+    matpricesheet=ruptomto[14]
+    matpriceshaft=ruptomto[15]
+    matpticeperkg=matpricesheet[0]
     holdtype = holders[0]
     holdsize = holders[1]
     holdmat = holders[2]
@@ -90,13 +92,13 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
             SHW = rawsheetwideseallayer
             SHH = rawsheetheightseallayer
             rawsheetdim=rawsheetmsealdim
+            matpticeperkg = matpricesheet[2]
         else:
             lm = lm1[layercounter]
-            layercounter+=1
-            if layercounter>1:
+            matpticeperkg = matpricesheet[layercounter]
+            if layercounter==0:
                 layercounter=1
-            
-            
+                  
             
         nn = en[0]       
         enameln = str(nn[1])
@@ -130,7 +132,7 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         unitpprice = en[1]#getunitpriceformtoitem(mtoit,1)
         mtro.append(unitpprice[0])
         mtro.append(str(round(msslayer,2)))
-        matpriceunit = float(getpriceofmaterialkg(lm))
+        matpriceunit = float(matpticeperkg)#float(getpriceofmaterialkg(lm))
         mtro.append(matpriceunit)
         matprice = calcpricebymass(matpriceunit,msslayer)
         mtro.append(matprice)
