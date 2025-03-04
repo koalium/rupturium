@@ -425,9 +425,15 @@ def findpricefromconfigprice(mat='s316',tip='SHEET',val=[]):
                 
     return getpriceofmaterialkg(mat=mat)     
 
+
 def getunitpriceformtoitem(mtoitem,itemnum):
     unit = mtoitem[itemnum]
     return unit[2]
+
+def getreadpriceformtoitems(mtoitem=[],itemnumber=4,v=[]):
+    mtp=[]
+
+    pass
 
 def getholdersizes(etype,esize):
     hdim=getdimensionbysizetype(element='holder',etype=etype,esize=esize)
