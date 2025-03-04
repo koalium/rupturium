@@ -48,6 +48,7 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
     holders= ruptomto[13]
     matpricesheet=ruptomto[14]
     matpriceshaft=ruptomto[15]
+    otherprices=ruptomto[16]
     matpticeperkg=matpricesheet[0]
     holdtype = holders[0]
     holdsize = holders[1]
@@ -157,19 +158,19 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         
     if analysmat==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,3,analysmat_[1],indexconter))
+        mtorows.append(anotherselementofmto(mtoit,3,analysmat_[1],indexconter,otherprices))
         
     if water_laser==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,5,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,5,1,indexconter,otherprices))
    
     if sensor==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,15,sensor_[1],indexconter))
+        mtorows.append(anotherselementofmto(mtoit,15,sensor_[1],indexconter,otherprices))
         
     if wirecut==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,4,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,4,1,indexconter,otherprices))
    
         
     #if tag==True:
@@ -178,15 +179,15 @@ def makeandwritemtoforrupture(ruptomto=ruptomtodef):
         
     if box==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,11,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,11,1,indexconter,otherprices))
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,12,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,12,1,indexconter,otherprices))
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,13,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,13,1,indexconter,otherprices))
        
     if ship==True:
         indexconter+=1
-        mtorows.append(anotherselementofmto(mtoit,14,1,indexconter))
+        mtorows.append(anotherselementofmto(mtoit,14,1,indexconter,otherprices))
         
     mtorows.append(["","","","","","","Total Price",f'=SUM(H3:H{indexconter+2})'])
     df1 = pd.DataFrame(mtorows,columns=mtoh)  
@@ -220,7 +221,7 @@ def makerowoftableofmto(index=1,name='sheet',prp='dimension',q='1',unit='meter',
     return row
     
     
-def anotherselementofmto(mtoit,itnum=4,qty=1,i=4):
+def anotherselementofmto(mtoit,itnum=4,qty=1,i=4,otherprices=[]):
       
     ow=[]
     en = mtoit[itnum]
@@ -232,10 +233,11 @@ def anotherselementofmto(mtoit,itnum=4,qty=1,i=4):
     ow.append(str(qty))
     mm= en[1] 
     #ow.append('-')
+    itm=itnum-3
     ow.append(mm[0])
     ow.append("-")
-    ow.append(mm[1])
-    tp = float(mm[1])*qty
+    ow.append(otherprices[itm])
+    tp = float(otherprices[itm])*qty
     ow.append(str(int(tp)))
     return ow 
 
