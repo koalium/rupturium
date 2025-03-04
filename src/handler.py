@@ -71,6 +71,28 @@ def rupturebtnmto(w,v):
     
     pr.append(findpricefromconfigprice(mat=str(v['-COMBOMAINMATERIALRH-']),tip='SHAFT',val=v))
     rm.append(pr)
+
+    pr=[]
+    pr.append(str(v['-INPUTPRICESANALYSMAT-']))
+    pr.append(str(v['-INPUTPRICEWIRECUT-']))
+    pr.append(str(v['-INPUTPRICESWATERJET-']))
+    pr.append(str(v['-INPUTPRICEHEATFORM-']))
+    pr.append(str(v['-INPUTPRICEHEATTREATMENT-']))
+    pr.append(str(v['-INPUTPRICEHYDROFORM-']))
+    pr.append(str(v['-INPUTPRICESTAG-']))
+    pr.append(str(v['-INPUTPRICESTESTING-']))
+    pr.append(str(v['-INPUTPRICEBOXING-']))
+    #pr.append(str(v['-INPUTPRICECARDBOX-']))
+    pr.append(1100000)
+    pr.append(str(v['-INPUTPRICEBOXING-']))
+    pr.append(str(v['-INPUTPRICESHIPPING-']))
+    pr.append(str(v['-INPUTPRICESENSOR-']))
+    pr.append(str(v['-INPUTPRICEPAINT-']))
+    pr.append(str(v['-INPUTPRICEWELDING-']))
+    pr.append(str(v['-INPUTPRICEMACHINERY-']))
+    pr.append(str(v['-INPUTPRICEMILLING-']))
+    pr.append(str(v['-INPUTPRICEGASKETS-']))
+    rm.append(pr)
     print("[LOG] MTO btn on rupture tab pressed!") 
     makeandwritemtoforrupture(rm) 
     return True
