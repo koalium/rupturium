@@ -43,8 +43,8 @@ class Database:
                         # Ensure the row has the correct number of columns
                         if len(row) == 8:
                             self.cursor.execute('''
-                                INSERT INTO tested (type, size, layers, bp, bt, rbp, fh, drw)
-                                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                                INSERT INTO tested (id,type, size, layers, bp, bt, rbp, fh, drw)
+                                VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?)
                             ''', row)
                 self.conn.commit()
                 messagebox.showinfo("Success", "Data imported from results.csv successfully")
