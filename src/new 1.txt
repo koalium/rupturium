@@ -1,0 +1,16 @@
+ const cryptoIcons = {
+            trx: './img/avalanche-avax-logo.png',
+            bsc: './img/bnb-bnb-logo.png',
+            btc: './img/bitcoin-btc-logo.png',
+            eth: './img/ethereum-eth-logo.png',
+            usdt: './img/cosmos-atom-logo.png',
+            doge: './img/eos-eos-logo.png',
+            ltc: './img/internet-computer-icp-logo.png',
+            dot: './img/aave-aave-logo.png',
+			mot: './img/uniswap-uni-logo.png',
+			pot: './img/celestia-tia-logo.png',
+			kot: './img/amp-amp-logo.png',
+			
+            matic: './img/decentraland-mana-logo.png'
+			
+        };
