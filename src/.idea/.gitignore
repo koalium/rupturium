@@ -6,3 +6,13 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
+../.env/
+/.env/
+.env
+build/
+./build
+../build
+../build/
+../__pycache__
+../__pycache__/
+/__pycache__/
